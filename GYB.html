@@ -1,294 +1,243 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Moon, Sun, Globe, ChevronDown, ArrowRight, Phone, Mail, MapPin, Facebook, Twitter, Instagram, Linkedin, Star, Users, Award, TrendingUp, Sparkles, Shield, Zap } from 'lucide-react';
+import { Menu, X, Globe, ArrowRight, Phone, Mail, MapPin, Users, Award, TrendingUp, Code, Terminal, Cpu, Database, GitBranch, Activity, Shield, Zap, ChevronDown, ExternalLink } from 'lucide-react';
 
 const GYBWebsite = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [language, setLanguage] = useState('en');
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-  // Logo component with the new design
-  const GYBLogo = ({ size = 'normal' }) => {
-    const dimensions = size === 'large' ? 'w-16 h-16' : size === 'small' ? 'w-8 h-8' : 'w-12 h-12';
-    const textSize = size === 'large' ? 'text-2xl' : size === 'small' ? 'text-lg' : 'text-xl';
-    
-    return (
-      <div className="flex items-center space-x-3" dir="ltr">
-        <div className={`${dimensions} relative`}>
-          {/* Crown */}
-          <div className="absolute -top-2 left-1/2 transform -translate-x-1/2">
-            <div className="w-4 h-3 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-t-full relative">
-              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1 h-2 bg-yellow-500 rounded-full"></div>
-              <div className="absolute top-0 left-1 w-0.5 h-1.5 bg-yellow-500 rounded-full"></div>
-              <div className="absolute top-0 right-1 w-0.5 h-1.5 bg-yellow-500 rounded-full"></div>
-            </div>
-          </div>
-          
-          {/* Shield with globe */}
-          <div className={`${dimensions} bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 rounded-lg border-2 border-yellow-400 flex items-center justify-center relative overflow-hidden shadow-xl`}>
-            {/* Globe wireframe */}
-            <div className="absolute inset-2 border border-yellow-300/30 rounded-full">
-              <div className="absolute top-1/2 left-0 right-0 h-px bg-yellow-300/30"></div>
-              <div className="absolute left-1/2 top-0 bottom-0 w-px bg-yellow-300/30"></div>
-              <div className="absolute top-2 left-1 right-1 h-px bg-yellow-300/20 rounded-full transform rotate-12"></div>
-              <div className="absolute bottom-2 left-1 right-1 h-px bg-yellow-300/20 rounded-full transform -rotate-12"></div>
-            </div>
-            
-            {/* GYB Text */}
-            <span className="text-yellow-400 font-bold text-sm z-10 tracking-wider">GYB</span>
-            
-            {/* Shine effect */}
-            <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent rounded-lg"></div>
-          </div>
-          
-          {/* Decorative flourishes */}
-          <div className="absolute -left-1 top-1/2 transform -translate-y-1/2">
-            <div className="w-2 h-4 bg-gradient-to-r from-yellow-400 to-transparent rounded-l-full opacity-60"></div>
-          </div>
-          <div className="absolute -right-1 top-1/2 transform -translate-y-1/2">
-            <div className="w-2 h-4 bg-gradient-to-l from-yellow-400 to-transparent rounded-r-full opacity-60"></div>
-          </div>
-        </div>
-        
-        <span className={`${textSize} font-bold bg-gradient-to-r from-blue-900 to-blue-700 dark:from-yellow-400 dark:to-yellow-200 bg-clip-text text-transparent`}>
-          Grow Your Business
-        </span>
-      </div>
-    );
-  };
-
-  // Content in both languages (keeping "Grow Your Business" in English for Arabic)
+  // Content
   const content = {
     en: {
       nav: {
         home: 'Home',
-        services: 'Services',
-        portfolio: 'Portfolio',
+        services: 'Services', 
+        portfolio: 'Work',
         about: 'About',
         contact: 'Contact'
       },
       hero: {
-        title: 'Grow Your Business',
-        subtitle: 'Digital Solutions That Drive Results',
-        description: 'We help businesses transform their digital presence with cutting-edge web development, digital marketing, and innovative solutions that generate real growth.',
-        cta: 'Get Started Today',
-        ctaSecondary: 'View Our Work'
+        badge: 'GYB — Grow Your Business',
+        title: 'Websites that',
+        highlight: 'convert',
+        subtitle: 'We design fast, credible sites that turn visitors into customers—Arabic & English, built right.',
+        cta: 'Get a free audit',
+        ctaSecondary: 'See our work'
       },
       services: {
-        title: 'Our Services',
-        subtitle: 'What We Do Best',
+        title: 'Services',
+        subtitle: 'What we build',
         items: [
           {
+            tag: 'FRONTEND',
             title: 'Web Development',
-            description: 'Custom websites and web applications built with the latest technologies for optimal performance and user experience.',
-            icon: '🌐'
+            desc: 'React, Vue.js applications with modern UX/UI design patterns.',
+            link: 'Learn more'
           },
           {
-            title: 'Digital Marketing',
-            description: 'Comprehensive marketing strategies including SEO, social media, and paid advertising to boost your online presence.',
-            icon: '📱'
+            tag: 'BACKEND',
+            title: 'System Architecture',
+            desc: 'Scalable APIs, databases, and cloud infrastructure solutions.',
+            link: 'Learn more'
           },
           {
-            title: 'E-commerce Solutions',
-            description: 'Complete online store development with payment integration, inventory management, and customer analytics.',
-            icon: '🛒'
+            tag: 'DEVOPS',
+            title: 'Performance & SEO',
+            desc: 'Fast loading, mobile-optimized sites that rank on Google.',
+            link: 'Learn more'
           },
           {
+            tag: 'DESIGN',
             title: 'Brand Identity',
-            description: 'Professional branding services including logo design, brand guidelines, and visual identity systems.',
-            icon: '🎨'
+            desc: 'Complete visual systems from logos to marketing materials.',
+            link: 'Learn more'
           },
           {
+            tag: 'MOBILE',
             title: 'Mobile Apps',
-            description: 'Native and cross-platform mobile applications designed to engage users and drive business growth.',
-            icon: '📱'
+            desc: 'Native iOS/Android and cross-platform mobile solutions.',
+            link: 'Learn more'
           },
           {
-            title: 'Consulting',
-            description: 'Strategic business consulting to help you make informed decisions about your digital transformation.',
-            icon: '💡'
+            tag: 'STRATEGY',
+            title: 'Digital Strategy',
+            desc: 'Growth planning, analytics setup, and conversion optimization.',
+            link: 'Learn more'
           }
         ]
       },
       portfolio: {
-        title: 'Our Portfolio',
-        subtitle: 'Recent Success Stories',
-        categories: ['All', 'Web Development', 'E-commerce', 'Mobile Apps', 'Branding'],
-        projects: [
-          { title: 'E-commerce Platform', category: 'E-commerce', image: '🛍️' },
-          { title: 'Corporate Website', category: 'Web Development', image: '🏢' },
-          { title: 'Mobile Banking App', category: 'Mobile Apps', image: '💳' },
-          { title: 'Restaurant Brand', category: 'Branding', image: '🍕' },
-          { title: 'Healthcare Portal', category: 'Web Development', image: '🏥' },
-          { title: 'Fashion Store', category: 'E-commerce', image: '👗' }
+        title: 'Recent Work',
+        subtitle: 'Case studies & launches',
+        items: [
+          {
+            title: 'E-commerce Platform',
+            tech: 'React • Node.js • Stripe',
+            status: 'Live',
+            category: 'Web App'
+          },
+          {
+            title: 'Healthcare Portal',
+            tech: 'Vue.js • Python • PostgreSQL',
+            status: 'Live',
+            category: 'Enterprise'
+          },
+          {
+            title: 'Real Estate Site',
+            tech: 'Next.js • Sanity CMS',
+            status: 'Live',
+            category: 'Marketing'
+          }
         ]
       },
       about: {
         title: 'About GYB',
-        subtitle: 'Your Growth Partner',
-        description: 'At GYB (Grow Your Business), we are passionate about helping businesses thrive in the digital age. Our team of experts combines creativity, technology, and strategic thinking to deliver solutions that drive real results.',
+        subtitle: 'We build digital products that work.',
+        description: 'Based in Cairo, we help businesses grow through well-designed websites, applications, and digital strategies. Every project is built for performance, accessibility, and results.',
         stats: [
-          { number: '200+', label: 'Projects Completed' },
-          { number: '150+', label: 'Happy Clients' },
-          { number: '5+', label: 'Years Experience' },
-          { number: '50+', label: 'Team Members' }
+          { number: '50+', label: 'Projects Delivered' },
+          { number: '30+', label: 'Happy Clients' },
+          { number: '3+', label: 'Years Experience' },
+          { number: '99%', label: 'Client Satisfaction' }
         ]
       },
       contact: {
-        title: 'Contact Us',
-        subtitle: 'Let\'s Discuss Your Project',
+        title: 'Start Your Project',
+        subtitle: 'Ready to grow your business?',
         form: {
-          name: 'Full Name',
+          name: 'Your Name',
           email: 'Email Address',
-          phone: 'Phone Number',
-          service: 'Service Needed',
-          message: 'Project Details',
+          project: 'Project Type',
+          budget: 'Budget Range',
+          message: 'Tell us about your project',
           submit: 'Send Message'
         },
         info: {
           phone: '+20 123 456 7890',
-          email: 'hello@gyb.com',
+          email: 'hello@gyb.dev',
           address: 'Cairo, Egypt'
         }
-      },
-      footer: {
-        description: 'GYB is your trusted partner for digital transformation. We help businesses grow through innovative web solutions and strategic digital marketing.',
-        links: {
-          services: 'Services',
-          portfolio: 'Portfolio',
-          about: 'About Us',
-          contact: 'Contact',
-          privacy: 'Privacy Policy',
-          terms: 'Terms of Service'
-        },
-        copyright: '© 2025 GYB. All rights reserved.'
       }
     },
     ar: {
       nav: {
         home: 'الرئيسية',
         services: 'الخدمات',
-        portfolio: 'أعمالنا',
+        portfolio: 'الأعمال',
         about: 'من نحن',
-        contact: 'تواصل معنا'
+        contact: 'تواصل'
       },
       hero: {
-        title: 'Grow Your Business', // Keep in English as requested
-        subtitle: 'حلول رقمية تحقق النتائج',
-        description: 'نساعد الشركات على تطوير حضورها الرقمي من خلال تطوير المواقع المتطورة والتسويق الرقمي والحلول المبتكرة التي تحقق نموًا حقيقيًا.',
-        cta: 'ابدأ اليوم',
+        badge: 'GYB — نمي عملك',
+        title: 'مواقع ويب',
+        highlight: 'تحقق النتائج',
+        subtitle: 'نصمم مواقع سريعة وموثوقة تحول الزوار إلى عملاء—عربي وإنجليزي، مبنية بالشكل الصحيح.',
+        cta: 'احصل على تقييم مجاني',
         ctaSecondary: 'شاهد أعمالنا'
       },
       services: {
-        title: 'خدماتنا',
-        subtitle: 'ما نتميز فيه',
+        title: 'الخدمات',
+        subtitle: 'ما نبنيه',
         items: [
           {
-            title: 'تطوير المواقع',
-            description: 'مواقع وتطبيقات ويب مخصصة مبنية بأحدث التقنيات للحصول على أفضل أداء وتجربة مستخدم.',
-            icon: '🌐'
+            tag: 'الواجهة الأمامية',
+            title: 'تطوير الويب',
+            desc: 'تطبيقات React و Vue.js مع أنماط تصميم UX/UI حديثة.',
+            link: 'اعرف المزيد'
           },
           {
-            title: 'التسويق الرقمي',
-            description: 'استراتيجيات تسويقية شاملة تشمل تحسين محركات البحث ووسائل التواصل الاجتماعي والإعلانات المدفوعة.',
-            icon: '📱'
+            tag: 'الخلفية',
+            title: 'معمارية الأنظمة',
+            desc: 'واجهات برمجة قابلة للتوسع وقواعد بيانات وحلول بنية تحتية سحابية.',
+            link: 'اعرف المزيد'
           },
           {
-            title: 'حلول التجارة الإلكترونية',
-            description: 'تطوير متاجر إلكترونية كاملة مع تكامل المدفوعات وإدارة المخزون وتحليلات العملاء.',
-            icon: '🛒'
+            tag: 'DevOps',
+            title: 'الأداء وتحسين محركات البحث',
+            desc: 'مواقع سريعة التحميل ومحسّنة للهواتف المحمولة تتصدر جوجل.',
+            link: 'اعرف المزيد'
           },
           {
+            tag: 'التصميم',
             title: 'الهوية التجارية',
-            description: 'خدمات العلامة التجارية المتخصصة تشمل تصميم الشعارات ومبادئ العلامة التجارية وأنظمة الهوية البصرية.',
-            icon: '🎨'
+            desc: 'أنظمة بصرية كاملة من الشعارات إلى المواد التسويقية.',
+            link: 'اعرف المزيد'
           },
           {
-            title: 'تطبيقات الهاتف',
-            description: 'تطبيقات هاتف أصلية ومتعددة المنصات مصممة لإشراك المستخدمين ودفع نمو الأعمال.',
-            icon: '📱'
+            tag: 'المحمول',
+            title: 'تطبيقات الموبايل',
+            desc: 'حلول iOS/Android الأصلية وتطبيقات متعددة المنصات.',
+            link: 'اعرف المزيد'
           },
           {
-            title: 'الاستشارات',
-            description: 'استشارات أعمال استراتيجية لمساعدتك في اتخاذ قرارات مدروسة حول التحول الرقمي.',
-            icon: '💡'
+            tag: 'الاستراتيجية',
+            title: 'الاستراتيجية الرقمية',
+            desc: 'تخطيط النمو وإعداد التحليلات وتحسين التحويل.',
+            link: 'اعرف المزيد'
           }
         ]
       },
       portfolio: {
-        title: 'أعمالنا',
-        subtitle: 'قصص نجاح حديثة',
-        categories: ['الكل', 'تطوير المواقع', 'التجارة الإلكترونية', 'تطبيقات الهاتف', 'العلامة التجارية'],
-        projects: [
-          { title: 'منصة تجارة إلكترونية', category: 'التجارة الإلكترونية', image: '🛍️' },
-          { title: 'موقع شركة', category: 'تطوير المواقع', image: '🏢' },
-          { title: 'تطبيق مصرفي', category: 'تطبيقات الهاتف', image: '💳' },
-          { title: 'علامة مطعم تجارية', category: 'العلامة التجارية', image: '🍕' },
-          { title: 'بوابة رعاية صحية', category: 'تطوير المواقع', image: '🏥' },
-          { title: 'متجر أزياء', category: 'التجارة الإلكترونية', image: '👗' }
+        title: 'أحدث الأعمال',
+        subtitle: 'دراسات حالة وإطلاقات',
+        items: [
+          {
+            title: 'منصة التجارة الإلكترونية',
+            tech: 'React • Node.js • Stripe',
+            status: 'مباشر',
+            category: 'تطبيق ويب'
+          },
+          {
+            title: 'بوابة الرعاية الصحية',
+            tech: 'Vue.js • Python • PostgreSQL', 
+            status: 'مباشر',
+            category: 'المؤسسات'
+          },
+          {
+            title: 'موقع العقارات',
+            tech: 'Next.js • Sanity CMS',
+            status: 'مباشر',
+            category: 'التسويق'
+          }
         ]
       },
       about: {
         title: 'حول GYB',
-        subtitle: 'شريك نموك',
-        description: 'في GYB، نحن شغوفون بمساعدة الشركات على الازدهار في العصر الرقمي. فريقنا من الخبراء يجمع بين الإبداع والتكنولوجيا والتفكير الاستراتيجي لتقديم حلول تحقق نتائج حقيقية.',
+        subtitle: 'نبني منتجات رقمية تعمل.',
+        description: 'مقرنا في القاهرة، نساعد الشركات على النمو من خلال مواقع الويب والتطبيقات والاستراتيجيات الرقمية المصممة جيداً. كل مشروع مبني للأداء وسهولة الوصول والنتائج.',
         stats: [
-          { number: '+200', label: 'مشروع مكتمل' },
-          { number: '+150', label: 'عميل راضي' },
-          { number: '+5', label: 'سنوات خبرة' },
-          { number: '+50', label: 'عضو فريق' }
+          { number: '+50', label: 'مشروع منجز' },
+          { number: '+30', label: 'عميل سعيد' },
+          { number: '+3', label: 'سنوات خبرة' },
+          { number: '%99', label: 'رضا العملاء' }
         ]
       },
       contact: {
-        title: 'تواصل معنا',
-        subtitle: 'لنناقش مشروعك',
+        title: 'ابدأ مشروعك',
+        subtitle: 'جاهز لتنمية عملك؟',
         form: {
-          name: 'الاسم الكامل',
+          name: 'اسمك',
           email: 'البريد الإلكتروني',
-          phone: 'رقم الهاتف',
-          service: 'الخدمة المطلوبة',
-          message: 'تفاصيل المشروع',
+          project: 'نوع المشروع',
+          budget: 'نطاق الميزانية', 
+          message: 'أخبرنا عن مشروعك',
           submit: 'إرسال الرسالة'
         },
         info: {
           phone: '+20 123 456 7890',
-          email: 'hello@gyb.com',
+          email: 'hello@gyb.dev', 
           address: 'القاهرة، مصر'
         }
-      },
-      footer: {
-        description: 'GYB هو شريكك الموثوق للتحول الرقمي. نساعد الشركات على النمو من خلال حلول الويب المبتكرة والتسويق الرقمي الاستراتيجي.',
-        links: {
-          services: 'الخدمات',
-          portfolio: 'أعمالنا',
-          about: 'من نحن',
-          contact: 'تواصل معنا',
-          privacy: 'سياسة الخصوصية',
-          terms: 'شروط الخدمة'
-        },
-        copyright: '© 2025 GYB. جميع الحقوق محفوظة.'
       }
     }
   };
 
-  // Mouse tracking for parallax effects
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
-  // Monitor scroll position
+  // Scroll tracking
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 20);
       
-      // Update active section based on scroll position
       const sections = ['home', 'services', 'portfolio', 'about', 'contact'];
       const scrollPosition = window.scrollY + 100;
       
@@ -308,17 +257,7 @@ const GYBWebsite = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Toggle dark mode with proper class handling
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    if (!isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  };
-
-  // Smooth scroll to section
+  // Scroll to section
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -327,148 +266,143 @@ const GYBWebsite = () => {
     setIsMenuOpen(false);
   };
 
-  // Get current content based on language
   const t = content[language];
 
-  // Floating animation component
-  const FloatingElement = ({ className, delay = 0, children }) => (
+  return (
     <div 
-      className={`absolute ${className}`}
+      className="min-h-screen bg-bg text-text antialiased" 
+      dir={language === 'ar' ? 'rtl' : 'ltr'}
       style={{
-        animation: `float 6s ease-in-out infinite ${delay}s`,
-        transform: `translate(${mousePosition.x * 0.02}px, ${mousePosition.y * 0.02}px)`
+        '--bg': '#0B0F10',
+        '--surface': '#12181B', 
+        '--muted': '#94A3B8',
+        '--text': '#E5E7EB',
+        '--accent': '#9FEF00',
+        '--accent-2': '#2DD4BF',
+        '--border': '#1F2937'
       }}
     >
-      {children}
-    </div>
-  );
-
-  return (
-    <div className={`min-h-screen transition-all duration-500 ${isDarkMode ? 'dark' : ''} ${language === 'ar' ? 'rtl' : 'ltr'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
       <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(180deg); }
+        :root {
+          --bg: #0B0F10;
+          --surface: #12181B;
+          --muted: #94A3B8;
+          --text: #E5E7EB;
+          --accent: #9FEF00;
+          --accent-2: #2DD4BF;
+          --border: #1F2937;
         }
-        @keyframes glow {
-          0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); }
-          50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.6); }
+        
+        .bg-bg { background-color: var(--bg); }
+        .bg-surface { background-color: var(--surface); }
+        .text-text { color: var(--text); }
+        .text-muted { color: var(--muted); }
+        .text-accent { color: var(--accent); }
+        .text-accent-2 { color: var(--accent-2); }
+        .bg-accent { background-color: var(--accent); }
+        .bg-accent-2 { background-color: var(--accent-2); }
+        .border-border { border-color: var(--border); }
+        .border-accent { border-color: var(--accent); }
+        
+        .bg-surface\\/60 { background-color: rgba(18, 24, 27, 0.6); }
+        .bg-surface\\/70 { background-color: rgba(18, 24, 27, 0.7); }
+        .ring-accent\\/20 { box-shadow: 0 0 0 1px rgba(159, 239, 0, 0.2); }
+        
+        .bg-grid {
+          background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
+          background-size: 24px 24px;
         }
-        @keyframes sparkle {
-          0%, 100% { opacity: 0; transform: scale(0); }
-          50% { opacity: 1; transform: scale(1); }
+        
+        .shadow-glow {
+          box-shadow: 0 0 0 1px rgba(159,239,0,0.25), 0 8px 30px rgba(0,0,0,0.35);
         }
-        @keyframes slideInFromLeft {
-          0% { opacity: 0; transform: translateX(-100px); }
-          100% { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes slideInFromRight {
-          0% { opacity: 0; transform: translateX(100px); }
-          100% { opacity: 1; transform: translateX(0); }
-        }
+        
         @keyframes fadeInUp {
-          0% { opacity: 0; transform: translateY(50px); }
-          100% { opacity: 1; transform: translateY(0); }
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
-        .animate-glow {
-          animation: glow 3s ease-in-out infinite;
-        }
-        .animate-sparkle {
-          animation: sparkle 2s ease-in-out infinite;
-        }
-        .animate-slide-in-left {
-          animation: slideInFromLeft 1s ease-out;
-        }
-        .animate-slide-in-right {
-          animation: slideInFromRight 1s ease-out;
-        }
+        
         .animate-fade-in-up {
-          animation: fadeInUp 1s ease-out;
+          animation: fadeInUp 0.7s ease-out;
         }
+        
+        .animate-delay-100 { animation-delay: 100ms; }
+        .animate-delay-200 { animation-delay: 200ms; }
+        .animate-delay-300 { animation-delay: 300ms; }
+        .animate-delay-400 { animation-delay: 400ms; }
       `}</style>
 
       {/* Navigation */}
-      <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${isScrolled 
-        ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-2xl border-b border-yellow-200/20 dark:border-yellow-400/20' 
-        : 'bg-transparent'}`}>
-        <div className="container mx-auto px-4 py-4">
+      <nav className={`sticky top-0 w-full z-50 transition-all duration-500 ${
+        isScrolled 
+          ? 'bg-surface/70 backdrop-blur-xl border-b border-border' 
+          : 'bg-transparent'
+      }`}>
+        <div className="mx-auto max-w-7xl px-6 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <div className="animate-slide-in-left">
-              <GYBLogo />
+            <div className="flex items-center space-x-3" onClick={() => scrollToSection('home')} style={{ cursor: 'pointer' }}>
+              <div className="w-10 h-10 bg-surface border border-border rounded-lg flex items-center justify-center relative overflow-hidden">
+                <span className="text-accent font-mono font-bold text-sm">GYB</span>
+                <div className="absolute top-0 left-0 w-full h-px bg-accent/50"></div>
+              </div>
+              <span className="text-lg font-semibold text-text">Grow Your Business</span>
             </div>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8 animate-fade-in-up">
-              {Object.entries(t.nav).map(([key, label], index) => (
+            {/* Desktop Nav */}
+            <div className="hidden md:flex items-center space-x-8">
+              {Object.entries(t.nav).map(([key, label]) => (
                 <button
                   key={key}
                   onClick={() => scrollToSection(key)}
-                  className={`relative transition-all duration-500 hover:text-yellow-600 dark:hover:text-yellow-400 font-semibold transform hover:scale-110 ${
+                  className={`px-3 py-2 text-sm font-medium transition-all duration-300 ${
                     activeSection === key 
-                      ? 'text-yellow-600 dark:text-yellow-400' 
-                      : 'text-blue-900 dark:text-gray-300'
+                      ? 'text-accent' 
+                      : 'text-muted hover:text-text'
                   }`}
-                  style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   {label}
-                  {activeSection === key && (
-                    <div className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full animate-glow"></div>
-                  )}
                 </button>
               ))}
             </div>
 
             {/* Controls */}
-            <div className="flex items-center space-x-3 animate-slide-in-right">
-              {/* Language Toggle */}
+            <div className="flex items-center space-x-3">
               <button
                 onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
-                className="flex items-center space-x-1 px-4 py-2 rounded-xl bg-gradient-to-r from-blue-100 to-yellow-100 dark:from-gray-800 dark:to-gray-700 hover:from-yellow-200 hover:to-blue-200 dark:hover:from-gray-700 dark:hover:to-gray-600 transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                className="flex items-center space-x-2 px-3 py-2 text-xs font-mono bg-surface hover:bg-border rounded-lg border border-border transition-all duration-300"
               >
-                <Globe className="w-4 h-4 text-blue-900 dark:text-yellow-400" />
-                <span className="text-sm font-bold text-blue-900 dark:text-yellow-400">{language === 'en' ? 'عربي' : 'EN'}</span>
+                <Globe className="w-4 h-4" />
+                <span>{language === 'en' ? 'AR' : 'EN'}</span>
               </button>
 
-              {/* Dark Mode Toggle */}
-              <button
-                onClick={toggleDarkMode}
-                className="p-3 rounded-xl bg-gradient-to-r from-blue-100 to-yellow-100 dark:from-gray-800 dark:to-gray-700 hover:from-yellow-200 hover:to-blue-200 dark:hover:from-gray-700 dark:hover:to-gray-600 transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-xl"
-              >
-                {isDarkMode ? (
-                  <Sun className="w-5 h-5 text-yellow-500 animate-pulse" />
-                ) : (
-                  <Moon className="w-5 h-5 text-blue-900" />
-                )}
-              </button>
-
-              {/* Mobile Menu Toggle */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="md:hidden p-3 rounded-xl bg-gradient-to-r from-blue-100 to-yellow-100 dark:from-gray-800 dark:to-gray-700 hover:from-yellow-200 hover:to-blue-200 dark:hover:from-gray-700 dark:hover:to-gray-600 transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                className="md:hidden p-2 bg-surface hover:bg-border rounded-lg border border-border transition-all duration-300"
               >
-                {isMenuOpen ? (
-                  <X className="w-6 h-6 text-blue-900 dark:text-yellow-400" />
-                ) : (
-                  <Menu className="w-6 h-6 text-blue-900 dark:text-yellow-400" />
-                )}
+                {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
             </div>
           </div>
 
           {/* Mobile Menu */}
           {isMenuOpen && (
-            <div className="md:hidden mt-6 py-6 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md rounded-2xl shadow-2xl border border-yellow-200/20 dark:border-yellow-400/20 animate-fade-in-up">
-              {Object.entries(t.nav).map(([key, label], index) => (
+            <div className="md:hidden mt-4 py-4 bg-surface rounded-xl border border-border">
+              {Object.entries(t.nav).map(([key, label]) => (
                 <button
                   key={key}
                   onClick={() => scrollToSection(key)}
-                  className={`block w-full text-left px-6 py-4 hover:bg-gradient-to-r hover:from-yellow-50 hover:to-blue-50 dark:hover:from-gray-800 dark:hover:to-gray-700 transition-all duration-500 font-semibold transform hover:scale-105 ${
+                  className={`block w-full text-left px-4 py-3 text-sm font-medium transition-all duration-300 ${
                     activeSection === key 
-                      ? 'text-yellow-600 dark:text-yellow-400 bg-gradient-to-r from-yellow-50 to-blue-50 dark:from-gray-800 dark:to-gray-700' 
-                      : 'text-blue-900 dark:text-gray-300'
+                      ? 'text-accent bg-accent/10' 
+                      : 'text-muted hover:text-text hover:bg-border/50'
                   }`}
-                  style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   {label}
                 </button>
@@ -479,237 +413,102 @@ const GYBWebsite = () => {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="min-h-screen flex items-center bg-gradient-to-br from-blue-50 via-white to-yellow-50 dark:from-gray-900 dark:via-blue-900 dark:to-gray-800 relative overflow-hidden">
-        {/* Animated Background Elements */}
-        <FloatingElement className="top-20 left-10 w-32 h-32 bg-gradient-to-r from-yellow-400/20 to-blue-400/20 rounded-full blur-xl" delay={0} />
-        <FloatingElement className="bottom-20 right-10 w-48 h-48 bg-gradient-to-r from-blue-400/20 to-yellow-400/20 rounded-full blur-xl" delay={2} />
-        <FloatingElement className="top-1/2 left-1/4 w-24 h-24 bg-gradient-to-r from-yellow-500/30 to-blue-500/30 rounded-full blur-lg" delay={1} />
-        <FloatingElement className="top-1/3 right-1/3 w-16 h-16 bg-gradient-to-r from-blue-500/40 to-yellow-500/40 rounded-full blur-md animate-pulse" delay={3} />
-
-        {/* Sparkle Effects */}
-        {[...Array(12)].map((_, i) => (
-          <FloatingElement 
-            key={i} 
-            className={`w-2 h-2 bg-yellow-400 rounded-full animate-sparkle`}
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`
-            }}
-            delay={Math.random() * 2}
-          />
-        ))}
-
-        <div className="container mx-auto px-4 py-20 relative z-10">
-          <div className="max-w-5xl mx-auto text-center">
-            <div className="animate-fade-in-up">
-              {/* Hero Badge */}
-              <div className="inline-flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-yellow-100 to-blue-100 dark:from-gray-800 dark:to-gray-700 rounded-full mb-8 animate-glow">
-                <Sparkles className="w-5 h-5 text-yellow-600 dark:text-yellow-400 animate-pulse" />
-                <span className="text-sm font-bold text-blue-900 dark:text-yellow-400">Premium Digital Solutions</span>
-                <Sparkles className="w-5 h-5 text-yellow-600 dark:text-yellow-400 animate-pulse" />
-              </div>
-
-              <h1 className="text-6xl md:text-8xl font-bold mb-8 animate-glow">
-                <span className="bg-gradient-to-r from-blue-900 via-yellow-600 to-blue-900 dark:from-yellow-400 dark:via-white dark:to-yellow-400 bg-clip-text text-transparent animate-pulse">
-                  {t.hero.title}
-                </span>
-              </h1>
-              
-              <p className="text-2xl md:text-3xl text-blue-800 dark:text-yellow-300 mb-6 font-bold animate-slide-in-left">
-                {t.hero.subtitle}
-              </p>
-              
-              <p className="text-xl text-gray-700 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed animate-slide-in-right">
-                {t.hero.description}
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in-up">
-                <button
-                  onClick={() => scrollToSection('contact')}
-                  className="group px-10 py-5 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-white rounded-2xl hover:shadow-2xl hover:shadow-yellow-500/50 dark:hover:shadow-yellow-400/50 transform hover:scale-110 transition-all duration-500 font-bold text-lg flex items-center space-x-3 animate-glow"
-                >
-                  <span>{t.hero.cta}</span>
-                  <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
-                </button>
-                
-                <button
-                  onClick={() => scrollToSection('portfolio')}
-                  className="group px-10 py-5 border-3 border-blue-900 dark:border-yellow-400 text-blue-900 dark:text-yellow-400 rounded-2xl hover:bg-blue-900 dark:hover:bg-yellow-400 hover:text-white dark:hover:text-gray-900 hover:shadow-2xl hover:shadow-blue-500/50 dark:hover:shadow-yellow-400/50 transform hover:scale-110 transition-all duration-500 font-bold text-lg backdrop-blur-sm"
-                >
-                  {t.hero.ctaSecondary}
-                </button>
-              </div>
-            </div>
+      <section id="home" className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid pointer-events-none" />
+        <div className="mx-auto max-w-7xl px-6 py-24">
+          <p className="text-sm uppercase tracking-widest text-muted animate-fade-in-up">
+            {t.hero.badge}
+          </p>
+          <h1 className="mt-4 text-4xl md:text-6xl font-semibold animate-fade-in-up animate-delay-100">
+            {t.hero.title} <span className="text-accent">{t.hero.highlight}</span>.
+          </h1>
+          <p className="mt-6 max-w-2xl text-lg text-muted leading-relaxed animate-fade-in-up animate-delay-200">
+            {t.hero.subtitle}
+          </p>
+          <div className="mt-10 flex flex-col sm:flex-row items-start gap-4 animate-fade-in-up animate-delay-300">
+            <button
+              onClick={() => scrollToSection('contact')}
+              className="inline-flex items-center rounded-xl px-5 py-3 bg-accent text-black font-medium hover:shadow-glow transition-all duration-500"
+            >
+              {t.hero.cta}
+            </button>
+            <button
+              onClick={() => scrollToSection('portfolio')}
+              className="inline-flex items-center rounded-xl px-5 py-3 border border-border hover:border-accent transition-all duration-300"
+            >
+              {t.hero.ctaSecondary}
+            </button>
           </div>
         </div>
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-24 bg-gradient-to-br from-white via-yellow-50/30 to-blue-50/30 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900/20 relative overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-yellow-400/10 to-blue-400/10"></div>
-          {[...Array(6)].map((_, i) => (
-            <FloatingElement 
-              key={i}
-              className={`w-64 h-64 bg-gradient-to-r from-yellow-200/20 to-blue-200/20 rounded-full blur-3xl`}
-              style={{
-                top: `${(i * 20) % 100}%`,
-                left: `${(i * 30) % 100}%`,
-              }}
-              delay={i * 0.5}
-            />
-          ))}
-        </div>
-
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="text-center mb-20 animate-fade-in-up">
-            <div className="inline-flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-yellow-100 to-blue-100 dark:from-gray-800 dark:to-gray-700 rounded-full mb-6">
-              <Shield className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
-              <span className="text-sm font-bold text-blue-900 dark:text-yellow-400">Our Expertise</span>
-            </div>
-            <h2 className="text-5xl md:text-6xl font-bold text-blue-900 dark:text-white mb-6 animate-glow">
-              <span className="bg-gradient-to-r from-blue-900 to-yellow-600 dark:from-yellow-400 dark:to-white bg-clip-text text-transparent">
-                {t.services.title}
-              </span>
-            </h2>
-            <p className="text-2xl text-gray-700 dark:text-gray-300 font-semibold">
-              {t.services.subtitle}
-            </p>
+      <section id="services" className="py-20">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="mb-16 space-y-4">
+            <h2 className="text-3xl md:text-5xl font-semibold">{t.services.title}</h2>
+            <p className="text-xl text-muted">{t.services.subtitle}</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {t.services.items.map((service, index) => (
-              <div
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {t.services.items.map((item, index) => (
+              <article
                 key={index}
-                className="group p-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-3xl hover:shadow-2xl hover:shadow-yellow-500/20 dark:hover:shadow-yellow-400/20 transition-all duration-700 hover:-translate-y-6 border border-yellow-200/30 dark:border-yellow-400/30 animate-fade-in-up relative overflow-hidden"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className="rounded-2xl border border-border bg-surface/60 p-6 transition-all duration-500 hover:-translate-y-0.5 hover:ring-1 hover:ring-accent/20"
               >
-                {/* Glow effect on hover */}
-                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/0 to-blue-400/0 group-hover:from-yellow-400/10 group-hover:to-blue-400/10 rounded-3xl transition-all duration-700"></div>
-                
-                <div className="relative z-10">
-                  <div className="text-6xl mb-8 transform group-hover:scale-125 group-hover:rotate-12 transition-all duration-500">
-                    {service.icon}
-                  </div>
-                  <h3 className="text-2xl font-bold text-blue-900 dark:text-white mb-6 group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors duration-300">
-                    {service.title}
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-8 text-lg">
-                    {service.description}
-                  </p>
-                  <div className="flex items-center text-yellow-600 dark:text-yellow-400 group-hover:translate-x-4 transition-transform duration-500 font-bold">
-                    <span>Learn More</span>
-                    <ArrowRight className="w-5 h-5 ml-3 group-hover:rotate-45 transition-transform duration-300" />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-900 via-blue-800 to-yellow-600 relative overflow-hidden">
-        {/* Animated background */}
-        <div className="absolute inset-0">
-          {[...Array(8)].map((_, i) => (
-            <FloatingElement 
-              key={i}
-              className={`w-32 h-32 bg-white/10 rounded-full blur-xl animate-pulse`}
-              style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-              }}
-              delay={i * 0.3}
-            />
-          ))}
-        </div>
-
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white">
-            {t.about.stats.map((stat, index) => (
-              <div 
-                key={index} 
-                className="group animate-fade-in-up transform hover:scale-110 transition-all duration-500" 
-                style={{ animationDelay: `${index * 200}ms` }}
-              >
-                <div className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-yellow-300 to-white bg-clip-text text-transparent animate-glow group-hover:animate-pulse">
-                  {stat.number}
-                </div>
-                <div className="text-yellow-100 font-bold text-lg tracking-wide">
-                  {stat.label}
-                </div>
-              </div>
+                <div className="text-accent font-mono text-sm">{item.tag}</div>
+                <h3 className="mt-2 text-xl font-semibold">{item.title}</h3>
+                <p className="mt-2 text-muted leading-relaxed">{item.desc}</p>
+                <button className="mt-4 text-sm text-accent underline underline-offset-4 hover:no-underline transition-all duration-300">
+                  {item.link}
+                </button>
+              </article>
             ))}
           </div>
         </div>
       </section>
 
       {/* Portfolio Section */}
-      <section id="portfolio" className="py-24 bg-gradient-to-br from-gray-50 via-yellow-50/20 to-blue-50/20 dark:from-gray-800 dark:via-blue-900/20 dark:to-gray-900 relative overflow-hidden">
-        {/* Background Effects */}
-        <FloatingElement className="top-10 right-10 w-40 h-40 bg-gradient-to-r from-yellow-300/20 to-blue-300/20 rounded-full blur-2xl" delay={0} />
-        <FloatingElement className="bottom-10 left-10 w-56 h-56 bg-gradient-to-r from-blue-300/20 to-yellow-300/20 rounded-full blur-2xl" delay={1} />
-
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="text-center mb-20 animate-fade-in-up">
-            <div className="inline-flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-yellow-100 to-blue-100 dark:from-gray-800 dark:to-gray-700 rounded-full mb-6">
-              <Star className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
-              <span className="text-sm font-bold text-blue-900 dark:text-yellow-400">Our Work</span>
-            </div>
-            <h2 className="text-5xl md:text-6xl font-bold text-blue-900 dark:text-white mb-6">
-              <span className="bg-gradient-to-r from-blue-900 to-yellow-600 dark:from-yellow-400 dark:to-white bg-clip-text text-transparent">
-                {t.portfolio.title}
-              </span>
-            </h2>
-            <p className="text-2xl text-gray-700 dark:text-gray-300 font-semibold">
-              {t.portfolio.subtitle}
-            </p>
+      <section id="portfolio" className="py-20 bg-surface/30">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="mb-16 space-y-4">
+            <h2 className="text-3xl md:text-5xl font-semibold">{t.portfolio.title}</h2>
+            <p className="text-xl text-muted">{t.portfolio.subtitle}</p>
           </div>
 
-          {/* Portfolio Filter */}
-          <div className="flex flex-wrap justify-center gap-4 mb-16 animate-fade-in-up">
-            {t.portfolio.categories.map((category, index) => (
-              <button
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {t.portfolio.items.map((item, index) => (
+              <article
                 key={index}
-                className={`px-8 py-4 rounded-2xl font-bold transition-all duration-500 transform hover:scale-105 ${
-                  index === 0 
-                    ? 'bg-gradient-to-r from-yellow-500 to-yellow-600 text-white shadow-xl shadow-yellow-500/50 animate-glow' 
-                    : 'bg-white dark:bg-gray-700 text-blue-900 dark:text-gray-300 hover:bg-gradient-to-r hover:from-yellow-500 hover:to-yellow-600 hover:text-white shadow-lg hover:shadow-xl hover:shadow-yellow-500/30'
-                }`}
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className="rounded-2xl border border-border bg-surface p-6 transition-all duration-500 hover:-translate-y-0.5 hover:ring-1 hover:ring-accent/20"
               >
-                {category}
-              </button>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-accent font-mono text-sm">{item.category}</span>
+                  <div className="flex items-center space-x-1">
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <span className="text-xs text-muted">{item.status}</span>
+                  </div>
+                </div>
+                <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+                <p className="text-muted font-mono text-sm mb-4">{item.tech}</p>
+                <button className="flex items-center space-x-2 text-sm text-accent hover:text-accent-2 transition-colors duration-300">
+                  <span>View Project</span>
+                  <ExternalLink className="w-4 h-4" />
+                </button>
+              </article>
             ))}
           </div>
+        </div>
+      </section>
 
-          {/* Portfolio Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {t.portfolio.projects.map((project, index) => (
-              <div
-                key={index}
-                className="group relative bg-white dark:bg-gray-700 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-yellow-500/20 dark:hover:shadow-yellow-400/20 transition-all duration-700 hover:-translate-y-6 border border-yellow-200/30 dark:border-yellow-400/30 animate-fade-in-up"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="aspect-video bg-gradient-to-br from-blue-100 via-yellow-100 to-blue-100 dark:from-blue-900 dark:via-gray-800 dark:to-blue-900 flex items-center justify-center text-8xl transform group-hover:scale-110 transition-transform duration-500">
-                  {project.image}
-                </div>
-                <div className="p-8">
-                  <h3 className="text-2xl font-bold text-blue-900 dark:text-white mb-3 group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors duration-300">
-                    {project.title}
-                  </h3>
-                  <p className="text-yellow-600 dark:text-yellow-400 font-bold text-lg">
-                    {project.category}
-                  </p>
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-900/95 to-yellow-600/95 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 backdrop-blur-sm">
-                  <button className="px-8 py-4 bg-white text-blue-900 rounded-2xl font-bold hover:bg-yellow-400 hover:text-white transition-all duration-300 transform hover:scale-110 shadow-xl">
-                    View Project
-                  </button>
-                </div>
+      {/* Stats Section */}
+      <section className="py-16 bg-bg">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {t.about.stats.map((stat, index) => (
+              <div key={index}>
+                <div className="text-2xl md:text-3xl font-bold text-accent font-mono">{stat.number}</div>
+                <div className="text-muted text-sm font-medium mt-1">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -717,225 +516,127 @@ const GYBWebsite = () => {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-24 bg-gradient-to-br from-white via-blue-50/30 to-yellow-50/30 dark:from-gray-900 dark:via-blue-900/20 dark:to-gray-800 relative overflow-hidden">
-        {/* Background Elements */}
-        <FloatingElement className="top-1/4 left-10 w-32 h-32 bg-gradient-to-r from-yellow-400/20 to-blue-400/20 rounded-full blur-xl" delay={0} />
-        <FloatingElement className="bottom-1/4 right-10 w-40 h-40 bg-gradient-to-r from-blue-400/20 to-yellow-400/20 rounded-full blur-xl" delay={1} />
-
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-5xl mx-auto text-center animate-fade-in-up">
-            <div className="inline-flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-yellow-100 to-blue-100 dark:from-gray-800 dark:to-gray-700 rounded-full mb-6">
-              <Users className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
-              <span className="text-sm font-bold text-blue-900 dark:text-yellow-400">About Us</span>
+      <section id="about" className="py-20">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="max-w-4xl">
+            <div className="mb-16 space-y-4">
+              <h2 className="text-3xl md:text-5xl font-semibold">{t.about.title}</h2>
+              <p className="text-xl text-muted">{t.about.subtitle}</p>
             </div>
             
-            <h2 className="text-5xl md:text-6xl font-bold text-blue-900 dark:text-white mb-6">
-              <span className="bg-gradient-to-r from-blue-900 to-yellow-600 dark:from-yellow-400 dark:to-white bg-clip-text text-transparent">
-                {t.about.title}
-              </span>
-            </h2>
-            <p className="text-2xl text-gray-700 dark:text-gray-300 mb-8 font-semibold">
-              {t.about.subtitle}
-            </p>
-            <p className="text-xl text-gray-600 dark:text-gray-400 leading-relaxed mb-16 max-w-4xl mx-auto">
-              {t.about.description}
-            </p>
-            
-            {/* Team Features */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mt-20">
-              {[
-                { icon: Users, title: 'Expert Team', desc: 'Skilled professionals with years of experience', color: 'blue' },
-                { icon: Award, title: 'Quality First', desc: 'Committed to delivering excellence in every project', color: 'yellow' },
-                { icon: TrendingUp, title: 'Growth Focused', desc: 'Solutions designed to scale with your business', color: 'green' }
-              ].map((feature, index) => {
-                const Icon = feature.icon;
-                return (
-                  <div key={index} className="group text-center animate-fade-in-up" style={{ animationDelay: `${index * 0.2}s` }}>
-                    <div className={`w-20 h-20 bg-gradient-to-r ${
-                      feature.color === 'blue' ? 'from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800' :
-                      feature.color === 'yellow' ? 'from-yellow-100 to-yellow-200 dark:from-yellow-900 dark:to-yellow-800' :
-                      'from-green-100 to-green-200 dark:from-green-900 dark:to-green-800'
-                    } rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg animate-glow`}>
-                      <Icon className={`w-10 h-10 ${
-                        feature.color === 'blue' ? 'text-blue-600 dark:text-blue-400' :
-                        feature.color === 'yellow' ? 'text-yellow-600 dark:text-yellow-400' :
-                        'text-green-600 dark:text-green-400'
-                      } group-hover:animate-pulse`} />
-                    </div>
-                    <h3 className="text-2xl font-bold text-blue-900 dark:text-white mb-4 group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors duration-300">
-                      {feature.title}
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed">{feature.desc}</p>
-                  </div>
-                );
-              })}
+            <div className="prose prose-lg prose-invert max-w-none">
+              <p className="text-muted leading-relaxed text-lg">
+                {t.about.description}
+              </p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-24 bg-gradient-to-br from-blue-50 via-yellow-50/50 to-white dark:from-gray-800 dark:via-blue-900/30 dark:to-gray-900 relative overflow-hidden">
-        {/* Background Effects */}
-        {[...Array(10)].map((_, i) => (
-          <FloatingElement 
-            key={i}
-            className={`w-6 h-6 bg-gradient-to-r from-yellow-400 to-blue-400 rounded-full animate-sparkle`}
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`
-            }}
-            delay={Math.random() * 2}
-          />
-        ))}
-
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="text-center mb-20 animate-fade-in-up">
-            <div className="inline-flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-yellow-100 to-blue-100 dark:from-gray-800 dark:to-gray-700 rounded-full mb-6">
-              <Phone className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
-              <span className="text-sm font-bold text-blue-900 dark:text-yellow-400">Get In Touch</span>
-            </div>
-            <h2 className="text-5xl md:text-6xl font-bold text-blue-900 dark:text-white mb-6">
-              <span className="bg-gradient-to-r from-blue-900 to-yellow-600 dark:from-yellow-400 dark:to-white bg-clip-text text-transparent">
-                {t.contact.title}
-              </span>
-            </h2>
-            <p className="text-2xl text-gray-700 dark:text-gray-300 font-semibold">
-              {t.contact.subtitle}
-            </p>
+      <section id="contact" className="py-20 bg-surface/30">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="mb-16 space-y-4 text-center">
+            <h2 className="text-3xl md:text-5xl font-semibold">{t.contact.title}</h2>
+            <p className="text-xl text-muted">{t.contact.subtitle}</p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Contact Form */}
-            <div className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md rounded-3xl shadow-2xl p-10 border border-yellow-200/30 dark:border-yellow-400/30 animate-slide-in-left">
-              <form className="space-y-8">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                  <div className="group">
-                    <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3 group-focus-within:text-yellow-600 dark:group-focus-within:text-yellow-400 transition-colors duration-300">
+            <div className="rounded-2xl border border-border bg-surface p-8">
+              <form className="space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-text mb-2">
                       {t.contact.form.name}
                     </label>
                     <input
                       type="text"
-                      className="w-full px-6 py-4 border-2 border-gray-200 dark:border-gray-600 rounded-2xl focus:ring-4 focus:ring-yellow-500/30 focus:border-yellow-500 dark:bg-gray-800 dark:text-white transition-all duration-500 hover:border-yellow-400 dark:hover:border-yellow-400"
+                      className="w-full px-4 py-3 border border-border bg-bg rounded-lg focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all duration-300"
                       placeholder={t.contact.form.name}
                     />
                   </div>
-                  <div className="group">
-                    <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3 group-focus-within:text-yellow-600 dark:group-focus-within:text-yellow-400 transition-colors duration-300">
+                  <div>
+                    <label className="block text-sm font-medium text-text mb-2">
                       {t.contact.form.email}
                     </label>
                     <input
                       type="email"
-                      className="w-full px-6 py-4 border-2 border-gray-200 dark:border-gray-600 rounded-2xl focus:ring-4 focus:ring-yellow-500/30 focus:border-yellow-500 dark:bg-gray-800 dark:text-white transition-all duration-500 hover:border-yellow-400 dark:hover:border-yellow-400"
+                      className="w-full px-4 py-3 border border-border bg-bg rounded-lg focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all duration-300"
                       placeholder={t.contact.form.email}
                     />
                   </div>
                 </div>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                  <div className="group">
-                    <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3 group-focus-within:text-yellow-600 dark:group-focus-within:text-yellow-400 transition-colors duration-300">
-                      {t.contact.form.phone}
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-text mb-2">
+                      {t.contact.form.project}
                     </label>
-                    <input
-                      type="tel"
-                      className="w-full px-6 py-4 border-2 border-gray-200 dark:border-gray-600 rounded-2xl focus:ring-4 focus:ring-yellow-500/30 focus:border-yellow-500 dark:bg-gray-800 dark:text-white transition-all duration-500 hover:border-yellow-400 dark:hover:border-yellow-400"
-                      placeholder={t.contact.form.phone}
-                    />
-                  </div>
-                  <div className="group">
-                    <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3 group-focus-within:text-yellow-600 dark:group-focus-within:text-yellow-400 transition-colors duration-300">
-                      {t.contact.form.service}
-                    </label>
-                    <select className="w-full px-6 py-4 border-2 border-gray-200 dark:border-gray-600 rounded-2xl focus:ring-4 focus:ring-yellow-500/30 focus:border-yellow-500 dark:bg-gray-800 dark:text-white transition-all duration-500 hover:border-yellow-400 dark:hover:border-yellow-400">
-                      <option>{t.contact.form.service}</option>
+                    <select className="w-full px-4 py-3 border border-border bg-bg rounded-lg focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all duration-300">
                       <option>Web Development</option>
-                      <option>Digital Marketing</option>
+                      <option>Mobile App</option>
                       <option>E-commerce</option>
-                      <option>Mobile Apps</option>
                       <option>Branding</option>
-                      <option>Consulting</option>
+                      <option>Other</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-text mb-2">
+                      {t.contact.form.budget}
+                    </label>
+                    <select className="w-full px-4 py-3 border border-border bg-bg rounded-lg focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all duration-300">
+                      <option>$5k - $10k</option>
+                      <option>$10k - $25k</option>
+                      <option>$25k - $50k</option>
+                      <option>$50k+</option>
                     </select>
                   </div>
                 </div>
 
-                <div className="group">
-                  <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3 group-focus-within:text-yellow-600 dark:group-focus-within:text-yellow-400 transition-colors duration-300">
+                <div>
+                  <label className="block text-sm font-medium text-text mb-2">
                     {t.contact.form.message}
                   </label>
                   <textarea
-                    rows={6}
-                    className="w-full px-6 py-4 border-2 border-gray-200 dark:border-gray-600 rounded-2xl focus:ring-4 focus:ring-yellow-500/30 focus:border-yellow-500 dark:bg-gray-800 dark:text-white transition-all duration-500 hover:border-yellow-400 dark:hover:border-yellow-400 resize-none"
+                    rows={5}
+                    className="w-full px-4 py-3 border border-border bg-bg rounded-lg focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all duration-300 resize-none"
                     placeholder={t.contact.form.message}
                   ></textarea>
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full px-10 py-5 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-white rounded-2xl hover:shadow-2xl hover:shadow-yellow-500/50 dark:hover:shadow-yellow-400/50 transform hover:scale-105 transition-all duration-500 font-bold text-lg flex items-center justify-center space-x-3 animate-glow"
+                  className="w-full px-6 py-3 bg-accent text-black rounded-lg font-medium hover:shadow-glow transition-all duration-500 flex items-center justify-center space-x-2"
                 >
                   <span>{t.contact.form.submit}</span>
-                  <ArrowRight className="w-6 h-6" />
+                  <ArrowRight className="w-4 h-4" />
                 </button>
               </form>
             </div>
 
             {/* Contact Info */}
-            <div className="space-y-8 animate-slide-in-right">
-              <div className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md rounded-3xl shadow-2xl p-10 border border-yellow-200/30 dark:border-yellow-400/30">
-                <h3 className="text-3xl font-bold text-blue-900 dark:text-white mb-8">Get In Touch</h3>
+            <div className="space-y-8">
+              <div className="rounded-2xl border border-border bg-surface p-8">
+                <h3 className="text-xl font-semibold mb-6">Get In Touch</h3>
                 
-                <div className="space-y-8">
+                <div className="space-y-6">
                   {[
-                    { icon: Phone, label: 'Phone', value: t.contact.info.phone, color: 'blue' },
-                    { icon: Mail, label: 'Email', value: t.contact.info.email, color: 'yellow' },
-                    { icon: MapPin, label: 'Location', value: t.contact.info.address, color: 'green' }
+                    { icon: Phone, label: 'Phone', value: t.contact.info.phone },
+                    { icon: Mail, label: 'Email', value: t.contact.info.email },
+                    { icon: MapPin, label: 'Location', value: t.contact.info.address }
                   ].map((item, index) => {
                     const Icon = item.icon;
                     return (
-                      <div key={index} className="flex items-center space-x-6 group">
-                        <div className={`w-16 h-16 bg-gradient-to-r ${
-                          item.color === 'blue' ? 'from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800' :
-                          item.color === 'yellow' ? 'from-yellow-100 to-yellow-200 dark:from-yellow-900 dark:to-yellow-800' :
-                          'from-green-100 to-green-200 dark:from-green-900 dark:to-green-800'
-                        } rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-500 shadow-lg`}>
-                          <Icon className={`w-8 h-8 ${
-                            item.color === 'blue' ? 'text-blue-600 dark:text-blue-400' :
-                            item.color === 'yellow' ? 'text-yellow-600 dark:text-yellow-400' :
-                            'text-green-600 dark:text-green-400'
-                          }`} />
+                      <div key={index} className="flex items-center space-x-4">
+                        <div className="w-10 h-10 bg-accent/10 border border-accent/30 rounded-lg flex items-center justify-center">
+                          <Icon className="w-5 h-5 text-accent" />
                         </div>
                         <div>
-                          <p className="text-sm text-gray-500 dark:text-gray-400 font-semibold">{item.label}</p>
-                          <p className="text-xl font-bold text-blue-900 dark:text-white group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors duration-300">
-                            {item.value}
-                          </p>
+                          <p className="text-sm text-muted">{item.label}</p>
+                          <p className="text-text font-medium">{item.value}</p>
                         </div>
                       </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Social Links */}
-              <div className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md rounded-3xl shadow-2xl p-10 border border-yellow-200/30 dark:border-yellow-400/30">
-                <h3 className="text-3xl font-bold text-blue-900 dark:text-white mb-8">Follow Us</h3>
-                <div className="flex space-x-6">
-                  {[
-                    { icon: Facebook, color: 'hover:text-blue-600', bg: 'hover:bg-blue-100 dark:hover:bg-blue-900' },
-                    { icon: Twitter, color: 'hover:text-blue-400', bg: 'hover:bg-blue-100 dark:hover:bg-blue-900' },
-                    { icon: Instagram, color: 'hover:text-pink-600', bg: 'hover:bg-pink-100 dark:hover:bg-pink-900' },
-                    { icon: Linkedin, color: 'hover:text-blue-700', bg: 'hover:bg-blue-100 dark:hover:bg-blue-900' }
-                  ].map((social, index) => {
-                    const Icon = social.icon;
-                    return (
-                      <button
-                        key={index}
-                        className={`w-16 h-16 rounded-2xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-600 dark:text-gray-400 ${social.color} ${social.bg} transition-all duration-500 hover:scale-125 shadow-lg hover:shadow-xl`}
-                      >
-                        <Icon className="w-8 h-8" />
-                      </button>
                     );
                   })}
                 </div>
@@ -946,103 +647,38 @@ const GYBWebsite = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gradient-to-r from-gray-900 via-blue-900 to-gray-900 dark:from-gray-950 dark:via-blue-950 dark:to-gray-950 text-white py-20 relative overflow-hidden">
-        {/* Background Effects */}
-        <div className="absolute inset-0">
-          {[...Array(15)].map((_, i) => (
-            <FloatingElement 
-              key={i}
-              className={`w-3 h-3 bg-yellow-400 rounded-full animate-sparkle`}
-              style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 4}s`
-              }}
-              delay={Math.random() * 2}
-            />
-          ))}
-        </div>
-
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-            {/* Company Info */}
-            <div className="md:col-span-2 animate-fade-in-up">
-              <div className="mb-8">
-                <GYBLogo size="large" />
+      <footer className="py-12 bg-bg border-t border-border">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+            <div className="flex items-center space-x-3 mb-4 md:mb-0">
+              <div className="w-8 h-8 bg-surface border border-border rounded-lg flex items-center justify-center">
+                <span className="text-accent font-mono font-bold text-xs">GYB</span>
               </div>
-              <p className="text-gray-300 mb-8 max-w-md leading-relaxed text-lg">
-                {t.footer.description}
-              </p>
-              <div className="flex space-x-4">
-                {[Facebook, Twitter, Instagram, Linkedin].map((Icon, index) => (
-                  <button
-                    key={index}
-                    className="w-12 h-12 rounded-2xl bg-gray-800 hover:bg-gradient-to-r hover:from-yellow-500 hover:to-yellow-600 flex items-center justify-center transition-all duration-500 transform hover:scale-125 hover:rotate-12 shadow-lg hover:shadow-xl hover:shadow-yellow-500/50"
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    <Icon className="w-6 h-6 hover:text-white transition-colors duration-300" />
-                  </button>
-                ))}
-              </div>
+              <span className="text-text font-medium">Grow Your Business</span>
             </div>
-
-            {/* Quick Links */}
-            <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              <h3 className="text-2xl font-bold mb-8 text-yellow-400">Quick Links</h3>
-              <div className="space-y-4">
-                {Object.entries(t.footer.links).slice(0, 4).map(([key, label], index) => (
-                  <button
-                    key={key}
-                    onClick={() => key !== 'privacy' && key !== 'terms' && scrollToSection(key)}
-                    className="block text-gray-300 hover:text-yellow-400 transition-all duration-300 hover:translate-x-2 text-lg font-medium"
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Legal */}
-            <div className="animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-              <h3 className="text-2xl font-bold mb-8 text-yellow-400">Legal</h3>
-              <div className="space-y-4">
-                {Object.entries(t.footer.links).slice(4).map(([key, label], index) => (
-                  <button
-                    key={key}
-                    className="block text-gray-300 hover:text-yellow-400 transition-all duration-300 hover:translate-x-2 text-lg font-medium"
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Copyright */}
-          <div className="border-t border-gray-800 mt-16 pt-12 text-center animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
-            <div className="flex flex-col md:flex-row justify-between items-center">
-              <p className="text-gray-400 text-lg">{t.footer.copyright}</p>
-              <div className="flex items-center space-x-4 mt-4 md:mt-0">
-                <div className="flex items-center space-x-2 text-yellow-400">
-                  <Sparkles className="w-5 h-5 animate-pulse" />
-                  <span className="font-bold">Made with passion in Egypt</span>
-                  <Sparkles className="w-5 h-5 animate-pulse" />
+            
+            <div className="flex items-center space-x-6 text-sm text-muted">
+              <span>© 2025 GYB. All rights reserved.</span>
+              <div className="hidden md:flex items-center space-x-4">
+                <button className="hover:text-text transition-colors duration-300">Privacy</button>
+                <button className="hover:text-text transition-colors duration-300">Terms</button>
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="font-mono text-xs">All systems operational</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        {/* Scroll to Top Button */}
-        <button
-          onClick={() => scrollToSection('home')}
-          className="fixed bottom-8 right-8 w-16 h-16 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-white rounded-full shadow-2xl hover:shadow-yellow-500/50 transform hover:scale-110 transition-all duration-500 flex items-center justify-center z-50 animate-glow"
-        >
-          <ArrowRight className="w-8 h-8 -rotate-90" />
-        </button>
       </footer>
+
+      {/* Scroll to Top */}
+      <button
+        onClick={() => scrollToSection('home')}
+        className="fixed bottom-8 right-8 w-12 h-12 bg-accent hover:bg-accent/80 text-black rounded-lg shadow-lg hover:shadow-glow transition-all duration-300 transform hover:scale-105 flex items-center justify-center z-50"
+      >
+        <ArrowRight className="w-5 h-5 -rotate-90" />
+      </button>
     </div>
   );
 };
