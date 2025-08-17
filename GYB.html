@@ -1,686 +1,1481 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, X, Globe, ArrowRight, Phone, Mail, MapPin, Users, Award, TrendingUp, Code, Terminal, Cpu, Database, GitBranch, Activity, Shield, Zap, ChevronDown, ExternalLink } from 'lucide-react';
-
-const GYBWebsite = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [language, setLanguage] = useState('en');
-  const [activeSection, setActiveSection] = useState('home');
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  // Content
-  const content = {
-    en: {
-      nav: {
-        home: 'Home',
-        services: 'Services', 
-        portfolio: 'Work',
-        about: 'About',
-        contact: 'Contact'
-      },
-      hero: {
-        badge: 'GYB — Grow Your Business',
-        title: 'Websites that',
-        highlight: 'convert',
-        subtitle: 'We design fast, credible sites that turn visitors into customers—Arabic & English, built right.',
-        cta: 'Get a free audit',
-        ctaSecondary: 'See our work'
-      },
-      services: {
-        title: 'Services',
-        subtitle: 'What we build',
-        items: [
-          {
-            tag: 'FRONTEND',
-            title: 'Web Development',
-            desc: 'React, Vue.js applications with modern UX/UI design patterns.',
-            link: 'Learn more'
-          },
-          {
-            tag: 'BACKEND',
-            title: 'System Architecture',
-            desc: 'Scalable APIs, databases, and cloud infrastructure solutions.',
-            link: 'Learn more'
-          },
-          {
-            tag: 'DEVOPS',
-            title: 'Performance & SEO',
-            desc: 'Fast loading, mobile-optimized sites that rank on Google.',
-            link: 'Learn more'
-          },
-          {
-            tag: 'DESIGN',
-            title: 'Brand Identity',
-            desc: 'Complete visual systems from logos to marketing materials.',
-            link: 'Learn more'
-          },
-          {
-            tag: 'MOBILE',
-            title: 'Mobile Apps',
-            desc: 'Native iOS/Android and cross-platform mobile solutions.',
-            link: 'Learn more'
-          },
-          {
-            tag: 'STRATEGY',
-            title: 'Digital Strategy',
-            desc: 'Growth planning, analytics setup, and conversion optimization.',
-            link: 'Learn more'
-          }
-        ]
-      },
-      portfolio: {
-        title: 'Recent Work',
-        subtitle: 'Case studies & launches',
-        items: [
-          {
-            title: 'E-commerce Platform',
-            tech: 'React • Node.js • Stripe',
-            status: 'Live',
-            category: 'Web App'
-          },
-          {
-            title: 'Healthcare Portal',
-            tech: 'Vue.js • Python • PostgreSQL',
-            status: 'Live',
-            category: 'Enterprise'
-          },
-          {
-            title: 'Real Estate Site',
-            tech: 'Next.js • Sanity CMS',
-            status: 'Live',
-            category: 'Marketing'
-          }
-        ]
-      },
-      about: {
-        title: 'About GYB',
-        subtitle: 'We build digital products that work.',
-        description: 'Based in Cairo, we help businesses grow through well-designed websites, applications, and digital strategies. Every project is built for performance, accessibility, and results.',
-        stats: [
-          { number: '50+', label: 'Projects Delivered' },
-          { number: '30+', label: 'Happy Clients' },
-          { number: '3+', label: 'Years Experience' },
-          { number: '99%', label: 'Client Satisfaction' }
-        ]
-      },
-      contact: {
-        title: 'Start Your Project',
-        subtitle: 'Ready to grow your business?',
-        form: {
-          name: 'Your Name',
-          email: 'Email Address',
-          project: 'Project Type',
-          budget: 'Budget Range',
-          message: 'Tell us about your project',
-          submit: 'Send Message'
-        },
-        info: {
-          phone: '+20 123 456 7890',
-          email: 'hello@gyb.dev',
-          address: 'Cairo, Egypt'
-        }
-      }
-    },
-    ar: {
-      nav: {
-        home: 'الرئيسية',
-        services: 'الخدمات',
-        portfolio: 'الأعمال',
-        about: 'من نحن',
-        contact: 'تواصل'
-      },
-      hero: {
-        badge: 'GYB — نمي عملك',
-        title: 'مواقع ويب',
-        highlight: 'تحقق النتائج',
-        subtitle: 'نصمم مواقع سريعة وموثوقة تحول الزوار إلى عملاء—عربي وإنجليزي، مبنية بالشكل الصحيح.',
-        cta: 'احصل على تقييم مجاني',
-        ctaSecondary: 'شاهد أعمالنا'
-      },
-      services: {
-        title: 'الخدمات',
-        subtitle: 'ما نبنيه',
-        items: [
-          {
-            tag: 'الواجهة الأمامية',
-            title: 'تطوير الويب',
-            desc: 'تطبيقات React و Vue.js مع أنماط تصميم UX/UI حديثة.',
-            link: 'اعرف المزيد'
-          },
-          {
-            tag: 'الخلفية',
-            title: 'معمارية الأنظمة',
-            desc: 'واجهات برمجة قابلة للتوسع وقواعد بيانات وحلول بنية تحتية سحابية.',
-            link: 'اعرف المزيد'
-          },
-          {
-            tag: 'DevOps',
-            title: 'الأداء وتحسين محركات البحث',
-            desc: 'مواقع سريعة التحميل ومحسّنة للهواتف المحمولة تتصدر جوجل.',
-            link: 'اعرف المزيد'
-          },
-          {
-            tag: 'التصميم',
-            title: 'الهوية التجارية',
-            desc: 'أنظمة بصرية كاملة من الشعارات إلى المواد التسويقية.',
-            link: 'اعرف المزيد'
-          },
-          {
-            tag: 'المحمول',
-            title: 'تطبيقات الموبايل',
-            desc: 'حلول iOS/Android الأصلية وتطبيقات متعددة المنصات.',
-            link: 'اعرف المزيد'
-          },
-          {
-            tag: 'الاستراتيجية',
-            title: 'الاستراتيجية الرقمية',
-            desc: 'تخطيط النمو وإعداد التحليلات وتحسين التحويل.',
-            link: 'اعرف المزيد'
-          }
-        ]
-      },
-      portfolio: {
-        title: 'أحدث الأعمال',
-        subtitle: 'دراسات حالة وإطلاقات',
-        items: [
-          {
-            title: 'منصة التجارة الإلكترونية',
-            tech: 'React • Node.js • Stripe',
-            status: 'مباشر',
-            category: 'تطبيق ويب'
-          },
-          {
-            title: 'بوابة الرعاية الصحية',
-            tech: 'Vue.js • Python • PostgreSQL', 
-            status: 'مباشر',
-            category: 'المؤسسات'
-          },
-          {
-            title: 'موقع العقارات',
-            tech: 'Next.js • Sanity CMS',
-            status: 'مباشر',
-            category: 'التسويق'
-          }
-        ]
-      },
-      about: {
-        title: 'حول GYB',
-        subtitle: 'نبني منتجات رقمية تعمل.',
-        description: 'مقرنا في القاهرة، نساعد الشركات على النمو من خلال مواقع الويب والتطبيقات والاستراتيجيات الرقمية المصممة جيداً. كل مشروع مبني للأداء وسهولة الوصول والنتائج.',
-        stats: [
-          { number: '+50', label: 'مشروع منجز' },
-          { number: '+30', label: 'عميل سعيد' },
-          { number: '+3', label: 'سنوات خبرة' },
-          { number: '%99', label: 'رضا العملاء' }
-        ]
-      },
-      contact: {
-        title: 'ابدأ مشروعك',
-        subtitle: 'جاهز لتنمية عملك؟',
-        form: {
-          name: 'اسمك',
-          email: 'البريد الإلكتروني',
-          project: 'نوع المشروع',
-          budget: 'نطاق الميزانية', 
-          message: 'أخبرنا عن مشروعك',
-          submit: 'إرسال الرسالة'
-        },
-        info: {
-          phone: '+20 123 456 7890',
-          email: 'hello@gyb.dev', 
-          address: 'القاهرة، مصر'
-        }
-      }
-    }
-  };
-
-  // Scroll tracking
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-      
-      const sections = ['home', 'services', 'portfolio', 'about', 'contact'];
-      const scrollPosition = window.scrollY + 100;
-      
-      sections.forEach(section => {
-        const element = document.getElementById(section);
-        if (element) {
-          const offsetTop = element.offsetTop;
-          const height = element.offsetHeight;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + height) {
-            setActiveSection(section);
-          }
-        }
-      });
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Scroll to section
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-    setIsMenuOpen(false);
-  };
-
-  const t = content[language];
-
-  return (
-    <div 
-      className="min-h-screen bg-bg text-text antialiased" 
-      dir={language === 'ar' ? 'rtl' : 'ltr'}
-      style={{
-        '--bg': '#0B0F10',
-        '--surface': '#12181B', 
-        '--muted': '#94A3B8',
-        '--text': '#E5E7EB',
-        '--accent': '#9FEF00',
-        '--accent-2': '#2DD4BF',
-        '--border': '#1F2937'
-      }}
-    >
-      <style jsx>{`
+<!DOCTYPE html>
+<html lang="en" class="dark" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GYB - Grow Your Business</title>
+    <style>
         :root {
-          --bg: #0B0F10;
-          --surface: #12181B;
-          --muted: #94A3B8;
-          --text: #E5E7EB;
-          --accent: #9FEF00;
-          --accent-2: #2DD4BF;
-          --border: #1F2937;
+            --bg: #0B0F10;
+            --surface: #12181B;
+            --muted: #94A3B8;
+            --text: #E5E7EB;
+            --accent: #9FEF00;
+            --accent-2: #2DD4BF;
+            --border: #1F2937;
         }
-        
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, monospace;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Utilities */
         .bg-bg { background-color: var(--bg); }
         .bg-surface { background-color: var(--surface); }
+        .bg-surface-60 { background-color: rgba(18, 24, 27, 0.6); }
+        .bg-surface-70 { background-color: rgba(18, 24, 27, 0.7); }
         .text-text { color: var(--text); }
         .text-muted { color: var(--muted); }
         .text-accent { color: var(--accent); }
         .text-accent-2 { color: var(--accent-2); }
         .bg-accent { background-color: var(--accent); }
-        .bg-accent-2 { background-color: var(--accent-2); }
         .border-border { border-color: var(--border); }
         .border-accent { border-color: var(--accent); }
-        
-        .bg-surface\\/60 { background-color: rgba(18, 24, 27, 0.6); }
-        .bg-surface\\/70 { background-color: rgba(18, 24, 27, 0.7); }
-        .ring-accent\\/20 { box-shadow: 0 0 0 1px rgba(159, 239, 0, 0.2); }
-        
+
         .bg-grid {
-          background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
-          background-size: 24px 24px;
+            background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
+            background-size: 24px 24px;
         }
-        
+
         .shadow-glow {
-          box-shadow: 0 0 0 1px rgba(159,239,0,0.25), 0 8px 30px rgba(0,0,0,0.35);
+            box-shadow: 0 0 0 1px rgba(159,239,0,0.25), 0 8px 30px rgba(0,0,0,0.35);
         }
-        
+
+        .ring-accent-20 {
+            box-shadow: 0 0 0 1px rgba(159, 239, 0, 0.2);
+        }
+
+        .backdrop-blur {
+            backdrop-filter: blur(12px);
+        }
+
+        /* Animations */
         @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
         .animate-fade-in-up {
-          animation: fadeInUp 0.7s ease-out;
+            animation: fadeInUp 0.7s ease-out;
         }
-        
+
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
         .animate-delay-100 { animation-delay: 100ms; }
         .animate-delay-200 { animation-delay: 200ms; }
         .animate-delay-300 { animation-delay: 300ms; }
-        .animate-delay-400 { animation-delay: 400ms; }
-      `}</style>
 
-      {/* Navigation */}
-      <nav className={`sticky top-0 w-full z-50 transition-all duration-500 ${
-        isScrolled 
-          ? 'bg-surface/70 backdrop-blur-xl border-b border-border' 
-          : 'bg-transparent'
-      }`}>
-        <div className="mx-auto max-w-7xl px-6 py-4">
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <div className="flex items-center space-x-3" onClick={() => scrollToSection('home')} style={{ cursor: 'pointer' }}>
-              <div className="w-10 h-10 bg-surface border border-border rounded-lg flex items-center justify-center relative overflow-hidden">
-                <span className="text-accent font-mono font-bold text-sm">GYB</span>
-                <div className="absolute top-0 left-0 w-full h-px bg-accent/50"></div>
-              </div>
-              <span className="text-lg font-semibold text-text">Grow Your Business</span>
-            </div>
+        /* Navigation */
+        .navbar {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 50;
+            transition: all 0.5s ease;
+        }
 
-            {/* Desktop Nav */}
-            <div className="hidden md:flex items-center space-x-8">
-              {Object.entries(t.nav).map(([key, label]) => (
-                <button
-                  key={key}
-                  onClick={() => scrollToSection(key)}
-                  className={`px-3 py-2 text-sm font-medium transition-all duration-300 ${
-                    activeSection === key 
-                      ? 'text-accent' 
-                      : 'text-muted hover:text-text'
-                  }`}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
+        .navbar.scrolled {
+            background-color: var(--surface);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
 
-            {/* Controls */}
-            <div className="flex items-center space-x-3">
-              <button
-                onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
-                className="flex items-center space-x-2 px-3 py-2 text-xs font-mono bg-surface hover:bg-border rounded-lg border border-border transition-all duration-300"
-              >
-                <Globe className="w-4 h-4" />
-                <span>{language === 'en' ? 'AR' : 'EN'}</span>
-              </button>
+        .nav-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+        }
 
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="md:hidden p-2 bg-surface hover:bg-border rounded-lg border border-border transition-all duration-300"
-              >
-                {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-              </button>
-            </div>
-          </div>
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+        }
 
-          {/* Mobile Menu */}
-          {isMenuOpen && (
-            <div className="md:hidden mt-4 py-4 bg-surface rounded-xl border border-border">
-              {Object.entries(t.nav).map(([key, label]) => (
-                <button
-                  key={key}
-                  onClick={() => scrollToSection(key)}
-                  className={`block w-full text-left px-4 py-3 text-sm font-medium transition-all duration-300 ${
-                    activeSection === key 
-                      ? 'text-accent bg-accent/10' 
-                      : 'text-muted hover:text-text hover:bg-border/50'
-                  }`}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-      </nav>
+        .logo-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
 
-      {/* Hero Section */}
-      <section id="home" className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-grid pointer-events-none" />
-        <div className="mx-auto max-w-7xl px-6 py-24">
-          <p className="text-sm uppercase tracking-widest text-muted animate-fade-in-up">
-            {t.hero.badge}
-          </p>
-          <h1 className="mt-4 text-4xl md:text-6xl font-semibold animate-fade-in-up animate-delay-100">
-            {t.hero.title} <span className="text-accent">{t.hero.highlight}</span>.
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg text-muted leading-relaxed animate-fade-in-up animate-delay-200">
-            {t.hero.subtitle}
-          </p>
-          <div className="mt-10 flex flex-col sm:flex-row items-start gap-4 animate-fade-in-up animate-delay-300">
-            <button
-              onClick={() => scrollToSection('contact')}
-              className="inline-flex items-center rounded-xl px-5 py-3 bg-accent text-black font-medium hover:shadow-glow transition-all duration-500"
-            >
-              {t.hero.cta}
-            </button>
-            <button
-              onClick={() => scrollToSection('portfolio')}
-              className="inline-flex items-center rounded-xl px-5 py-3 border border-border hover:border-accent transition-all duration-300"
-            >
-              {t.hero.ctaSecondary}
-            </button>
-          </div>
-        </div>
-      </section>
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0.5;
+        }
 
-      {/* Services Section */}
-      <section id="services" className="py-20">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-16 space-y-4">
-            <h2 className="text-3xl md:text-5xl font-semibold">{t.services.title}</h2>
-            <p className="text-xl text-muted">{t.services.subtitle}</p>
-          </div>
+        .logo-text {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {t.services.items.map((item, index) => (
-              <article
-                key={index}
-                className="rounded-2xl border border-border bg-surface/60 p-6 transition-all duration-500 hover:-translate-y-0.5 hover:ring-1 hover:ring-accent/20"
-              >
-                <div className="text-accent font-mono text-sm">{item.tag}</div>
-                <h3 className="mt-2 text-xl font-semibold">{item.title}</h3>
-                <p className="mt-2 text-muted leading-relaxed">{item.desc}</p>
-                <button className="mt-4 text-sm text-accent underline underline-offset-4 hover:no-underline transition-all duration-300">
-                  {item.link}
-                </button>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+        .nav-menu {
+            display: none;
+            align-items: center;
+            gap: 2rem;
+        }
 
-      {/* Portfolio Section */}
-      <section id="portfolio" className="py-20 bg-surface/30">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-16 space-y-4">
-            <h2 className="text-3xl md:text-5xl font-semibold">{t.portfolio.title}</h2>
-            <p className="text-xl text-muted">{t.portfolio.subtitle}</p>
-          </div>
+        .nav-link {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            background: none;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {t.portfolio.items.map((item, index) => (
-              <article
-                key={index}
-                className="rounded-2xl border border-border bg-surface p-6 transition-all duration-500 hover:-translate-y-0.5 hover:ring-1 hover:ring-accent/20"
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-accent font-mono text-sm">{item.category}</span>
-                  <div className="flex items-center space-x-1">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-xs text-muted">{item.status}</span>
-                  </div>
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--accent);
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .control-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            color: var(--text);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background-color: var(--border);
+        }
+
+        .mobile-menu-btn {
+            display: block;
+            padding: 0.5rem;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+        }
+
+        .mobile-menu.show {
+            display: block;
+        }
+
+        .mobile-nav-link {
+            display: block;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            background: none;
+            border: none;
+            color: var(--muted);
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-nav-link:hover,
+        .mobile-nav-link.active {
+            color: var(--accent);
+            background-color: rgba(159, 239, 0, 0.1);
+        }
+
+        /* Sections */
+        .section {
+            padding: 5rem 0;
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            padding: 6rem 0;
+        }
+
+        .hero-badge {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: var(--muted);
+            max-width: 32rem;
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.75rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 0 1px rgba(159,239,0,0.25), 0 8px 30px rgba(0,0,0,0.35);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Services */
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .service-card {
+            padding: 1.5rem;
+            background-color: var(--surface);
+            background-color: rgba(18, 24, 27, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            transition: all 0.5s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 0 1px rgba(159, 239, 0, 0.2);
+        }
+
+        .service-tag {
+            color: var(--accent);
+            font-size: 0.875rem;
+        }
+
+        .service-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0.5rem 0;
+        }
+
+        .service-desc {
+            color: var(--muted);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .service-link {
+            color: var(--accent);
+            font-size: 0.875rem;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .service-link:hover {
+            text-decoration: none;
+        }
+
+        /* Portfolio */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .portfolio-card {
+            padding: 1.5rem;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            transition: all 0.5s ease;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 0 1px rgba(159, 239, 0, 0.2);
+        }
+
+        .portfolio-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .portfolio-category {
+            color: var(--accent);
+            font-size: 0.875rem;
+        }
+
+        .portfolio-status {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .status-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            background-color: #10b981;
+            border-radius: 50%;
+        }
+
+        .status-text {
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        .portfolio-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .portfolio-tech {
+            color: var(--muted);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .portfolio-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+            font-size: 0.875rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .portfolio-link:hover {
+            color: var(--accent-2);
+        }
+
+        /* Stats */
+        .stats {
+            padding: 4rem 0;
+            background-color: var(--bg);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-top: 0.25rem;
+        }
+
+        /* Contact */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
+
+        .contact-form {
+            padding: 2rem;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            color: var(--text);
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(159, 239, 0, 0.5);
+        }
+
+        .form-textarea {
+            resize: none;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .info-card {
+            padding: 2rem;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+        }
+
+        .info-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-items {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .info-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, rgba(159, 239, 0, 0.1), rgba(159, 239, 0, 0.2));
+            border: 1px solid rgba(159, 239, 0, 0.3);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+        }
+
+        .info-content p:first-child {
+            font-size: 0.875rem;
+            color: var(--muted);
+        }
+
+        .info-content p:last-child {
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 3rem 0;
+            background-color: var(--bg);
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            gap: 1rem;
+        }
+
+        .footer-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 0.875rem;
+            color: var(--muted);
+        }
+
+        .footer-links {
+            display: none;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer-link {
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--text);
+        }
+
+        .footer-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-status .status-dot {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        /* Scroll to top button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 3rem;
+            height: 3rem;
+            background-color: var(--accent);
+            color: #000;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 40;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scroll-to-top:hover {
+            background-color: rgba(159, 239, 0, 0.8);
+            box-shadow: 0 0 0 1px rgba(159,239,0,0.25), 0 8px 30px rgba(0,0,0,0.35);
+            transform: scale(1.05);
+        }
+
+        /* RTL Support */
+        [dir="rtl"] .hero-actions {
+            align-items: flex-end;
+        }
+
+        [dir="rtl"] .nav-content {
+            flex-direction: row-reverse;
+        }
+
+        [dir="rtl"] .logo {
+            flex-direction: row-reverse;
+        }
+
+        [dir="rtl"] .portfolio-header {
+            flex-direction: row-reverse;
+        }
+
+        [dir="rtl"] .info-item {
+            flex-direction: row-reverse;
+        }
+
+        /* Responsive */
+        @media (min-width: 640px) {
+            .hero-actions {
+                flex-direction: row;
+            }
+
+            .form-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .nav-menu {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 4rem;
+            }
+
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .portfolio-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .contact-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .footer-links {
+                display: flex;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .services-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .portfolio-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 1280px) {
+            .hero-title {
+                font-size: 5rem;
+            }
+        }
+
+        /* Icons (simple SVG icons) */
+        .icon {
+            width: 1rem;
+            height: 1rem;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .icon-lg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo" onclick="scrollToSection('home')">
+                    <div class="logo-icon">
+                        <span class="font-mono" style="font-weight: bold; font-size: 0.875rem; color: var(--accent);">GYB</span>
+                    </div>
+                    <span class="logo-text">Grow Your Business</span>
                 </div>
-                <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-                <p className="text-muted font-mono text-sm mb-4">{item.tech}</p>
-                <button className="flex items-center space-x-2 text-sm text-accent hover:text-accent-2 transition-colors duration-300">
-                  <span>View Project</span>
-                  <ExternalLink className="w-4 h-4" />
-                </button>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* Stats Section */}
-      <section className="py-16 bg-bg">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {t.about.stats.map((stat, index) => (
-              <div key={index}>
-                <div className="text-2xl md:text-3xl font-bold text-accent font-mono">{stat.number}</div>
-                <div className="text-muted text-sm font-medium mt-1">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="py-20">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="max-w-4xl">
-            <div className="mb-16 space-y-4">
-              <h2 className="text-3xl md:text-5xl font-semibold">{t.about.title}</h2>
-              <p className="text-xl text-muted">{t.about.subtitle}</p>
-            </div>
-            
-            <div className="prose prose-lg prose-invert max-w-none">
-              <p className="text-muted leading-relaxed text-lg">
-                {t.about.description}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="py-20 bg-surface/30">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-16 space-y-4 text-center">
-            <h2 className="text-3xl md:text-5xl font-semibold">{t.contact.title}</h2>
-            <p className="text-xl text-muted">{t.contact.subtitle}</p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Contact Form */}
-            <div className="rounded-2xl border border-border bg-surface p-8">
-              <form className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-text mb-2">
-                      {t.contact.form.name}
-                    </label>
-                    <input
-                      type="text"
-                      className="w-full px-4 py-3 border border-border bg-bg rounded-lg focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all duration-300"
-                      placeholder={t.contact.form.name}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-text mb-2">
-                      {t.contact.form.email}
-                    </label>
-                    <input
-                      type="email"
-                      className="w-full px-4 py-3 border border-border bg-bg rounded-lg focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all duration-300"
-                      placeholder={t.contact.form.email}
-                    />
-                  </div>
+                <div class="nav-menu" id="navMenu">
+                    <button class="nav-link active" onclick="scrollToSection('home')" data-section="home">Home</button>
+                    <button class="nav-link" onclick="scrollToSection('services')" data-section="services">Services</button>
+                    <button class="nav-link" onclick="scrollToSection('portfolio')" data-section="portfolio">Work</button>
+                    <button class="nav-link" onclick="scrollToSection('about')" data-section="about">About</button>
+                    <button class="nav-link" onclick="scrollToSection('contact')" data-section="contact">Contact</button>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-text mb-2">
-                      {t.contact.form.project}
-                    </label>
-                    <select className="w-full px-4 py-3 border border-border bg-bg rounded-lg focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all duration-300">
-                      <option>Web Development</option>
-                      <option>Mobile App</option>
-                      <option>E-commerce</option>
-                      <option>Branding</option>
-                      <option>Other</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-text mb-2">
-                      {t.contact.form.budget}
-                    </label>
-                    <select className="w-full px-4 py-3 border border-border bg-bg rounded-lg focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all duration-300">
-                      <option>$5k - $10k</option>
-                      <option>$10k - $25k</option>
-                      <option>$25k - $50k</option>
-                      <option>$50k+</option>
-                    </select>
-                  </div>
+                <div class="nav-controls">
+                    <button class="control-btn" onclick="toggleLanguage()">
+                        <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                        <span id="langToggle">AR</span>
+                    </button>
+                    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                        <svg class="icon-lg" viewBox="0 0 24 24" id="menuIcon">
+                            <line x1="4" x2="20" y1="6" y2="6"/>
+                            <line x1="4" x2="20" y1="12" y2="12"/>
+                            <line x1="4" x2="20" y1="18" y2="18"/>
+                        </svg>
+                    </button>
                 </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-text mb-2">
-                    {t.contact.form.message}
-                  </label>
-                  <textarea
-                    rows={5}
-                    className="w-full px-4 py-3 border border-border bg-bg rounded-lg focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all duration-300 resize-none"
-                    placeholder={t.contact.form.message}
-                  ></textarea>
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full px-6 py-3 bg-accent text-black rounded-lg font-medium hover:shadow-glow transition-all duration-500 flex items-center justify-center space-x-2"
-                >
-                  <span>{t.contact.form.submit}</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </form>
             </div>
 
-            {/* Contact Info */}
-            <div className="space-y-8">
-              <div className="rounded-2xl border border-border bg-surface p-8">
-                <h3 className="text-xl font-semibold mb-6">Get In Touch</h3>
+            <div class="mobile-menu" id="mobileMenu">
+                <button class="mobile-nav-link active" onclick="scrollToSection('home')" data-section="home">Home</button>
+                <button class="mobile-nav-link" onclick="scrollToSection('services')" data-section="services">Services</button>
+                <button class="mobile-nav-link" onclick="scrollToSection('portfolio')" data-section="portfolio">Work</button>
+                <button class="mobile-nav-link" onclick="scrollToSection('about')" data-section="about">About</button>
+                <button class="mobile-nav-link" onclick="scrollToSection('contact')" data-section="contact">Contact</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero section" id="home">
+        <div class="hero-grid bg-grid"></div>
+        <div class="container">
+            <div class="hero-content">
+                <p class="hero-badge animate-fade-in-up" id="heroBadge">GYB — Grow Your Business</p>
+                <h1 class="hero-title animate-fade-in-up animate-delay-100">
+                    <span id="heroTitle">Websites that </span><span class="text-accent" id="heroHighlight">convert</span>.
+                </h1>
+                <p class="hero-subtitle animate-fade-in-up animate-delay-200" id="heroSubtitle">
+                    We design fast, credible sites that turn visitors into customers—Arabic & English, built right.
+                </p>
+                <div class="hero-actions animate-fade-in-up animate-delay-300">
+                    <button class="btn btn-primary" onclick="scrollToSection('contact')" id="heroCta">
+                        <span>Get a free audit</span>
+                    </button>
+                    <button class="btn btn-secondary" onclick="scrollToSection('portfolio')" id="heroCtaSecondary">
+                        <span>See our work</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="section" id="services">
+        <div class="container">
+            <div style="margin-bottom: 4rem;">
+                <h2 style="font-size: 2.5rem; font-weight: 600; margin-bottom: 1rem;" id="servicesTitle">Services</h2>
+                <p style="font-size: 1.25rem; color: var(--muted);" id="servicesSubtitle">What we build</p>
+            </div>
+
+            <div class="services-grid" id="servicesGrid">
+                <!-- Services will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid" id="statsGrid">
+                <!-- Stats will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="section" id="portfolio" style="background-color: rgba(18, 24, 27, 0.3);">
+        <div class="container">
+            <div style="margin-bottom: 4rem;">
+                <h2 style="font-size: 2.5rem; font-weight: 600; margin-bottom: 1rem;" id="portfolioTitle">Recent Work</h2>
+                <p style="font-size: 1.25rem; color: var(--muted);" id="portfolioSubtitle">Case studies & launches</p>
+            </div>
+
+            <div class="portfolio-grid" id="portfolioGrid">
+                <!-- Portfolio will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="container">
+            <div style="max-width: 64rem;">
+                <div style="margin-bottom: 4rem;">
+                    <h2 style="font-size: 2.5rem; font-weight: 600; margin-bottom: 1rem;" id="aboutTitle">About GYB</h2>
+                    <p style="font-size: 1.25rem; color: var(--muted); margin-bottom: 2rem;" id="aboutSubtitle">We build digital products that work.</p>
+                </div>
                 
-                <div className="space-y-6">
-                  {[
-                    { icon: Phone, label: 'Phone', value: t.contact.info.phone },
-                    { icon: Mail, label: 'Email', value: t.contact.info.email },
-                    { icon: MapPin, label: 'Location', value: t.contact.info.address }
-                  ].map((item, index) => {
-                    const Icon = item.icon;
-                    return (
-                      <div key={index} className="flex items-center space-x-4">
-                        <div className="w-10 h-10 bg-accent/10 border border-accent/30 rounded-lg flex items-center justify-center">
-                          <Icon className="w-5 h-5 text-accent" />
-                        </div>
-                        <div>
-                          <p className="text-sm text-muted">{item.label}</p>
-                          <p className="text-text font-medium">{item.value}</p>
-                        </div>
-                      </div>
-                    );
-                  })}
+                <div style="max-width: none;">
+                    <p style="color: var(--muted); line-height: 1.7; font-size: 1.125rem;" id="aboutDescription">
+                        Based in Cairo, we help businesses grow through well-designed websites, applications, and digital strategies. Every project is built for performance, accessibility, and results.
+                    </p>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-      </section>
+    </section>
 
-      {/* Footer */}
-      <footer className="py-12 bg-bg border-t border-border">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-            <div className="flex items-center space-x-3 mb-4 md:mb-0">
-              <div className="w-8 h-8 bg-surface border border-border rounded-lg flex items-center justify-center">
-                <span className="text-accent font-mono font-bold text-xs">GYB</span>
-              </div>
-              <span className="text-text font-medium">Grow Your Business</span>
+    <!-- Contact Section -->
+    <section class="section" id="contact" style="background-color: rgba(18, 24, 27, 0.3);">
+        <div class="container">
+            <div style="margin-bottom: 4rem; text-align: center;">
+                <h2 style="font-size: 2.5rem; font-weight: 600; margin-bottom: 1rem;" id="contactTitle">Start Your Project</h2>
+                <p style="font-size: 1.25rem; color: var(--muted);" id="contactSubtitle">Ready to grow your business?</p>
             </div>
+
+            <div class="contact-grid">
+                <div class="contact-form">
+                    <form onsubmit="handleSubmit(event)" id="contactForm">
+                        <div class="form-group">
+                            <div class="form-grid">
+                                <div>
+                                    <label class="form-label" id="nameLabel">Your Name</label>
+                                    <input type="text" class="form-input" placeholder="Your Name" id="nameInput">
+                                </div>
+                                <div>
+                                    <label class="form-label" id="emailLabel">Email Address</label>
+                                    <input type="email" class="form-input" placeholder="Email Address" id="emailInput">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-grid">
+                                <div>
+                                    <label class="form-label" id="projectLabel">Project Type</label>
+                                    <select class="form-select" id="projectSelect">
+                                        <option>Web Development</option>
+                                        <option>Mobile App</option>
+                                        <option>E-commerce</option>
+                                        <option>Branding</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="form-label" id="budgetLabel">Budget Range</label>
+                                    <select class="form-select" id="budgetSelect">
+                                        <option>$5k - $10k</option>
+                                        <option>$10k - $25k</option>
+                                        <option>$25k - $50k</option>
+                                        <option>$50k+</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" id="messageLabel">Tell us about your project</label>
+                            <textarea rows="5" class="form-textarea" placeholder="Tell us about your project" id="messageTextarea"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%;" id="submitBtn">
+                            <span>Send Message</span>
+                            <svg class="icon" viewBox="0 0 24 24"><line x1="5" x2="19" y1="12" y2="12"/><polyline points="12,5 19,12 12,19"/></svg>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="contact-info">
+                    <div class="info-card">
+                        <h3 class="info-title">Get In Touch</h3>
+                        
+                        <div class="info-items">
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <svg class="icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                                </div>
+                                <div class="info-content">
+                                    <p>Phone</p>
+                                    <p id="phoneInfo">+20 123 456 7890</p>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <svg class="icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                </div>
+                                <div class="info-content">
+                                    <p>Email</p>
+                                    <p id="emailInfo">hello@gyb.dev</p>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <svg class="icon" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                </div>
+                                <div class="info-content">
+                                    <p>Location</p>
+                                    <p id="locationInfo">Cairo, Egypt</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="logo" style="margin-bottom: 0;">
+                    <div style="width: 2rem; height: 2rem; background-color: var(--surface); border: 1px solid var(--border); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center;">
+                        <span class="font-mono" style="font-weight: bold; font-size: 0.75rem; color: var(--accent);">GYB</span>
+                    </div>
+                    <span style="font-weight: 500;">Grow Your Business</span>
+                </div>
+                
+                <div class="footer-info">
+                    <span id="footerCopyright">© 2025 GYB. All rights reserved.</span>
+                    <div class="footer-links">
+                        <button class="footer-link">Privacy</button>
+                        <button class="footer-link">Terms</button>
+                        <div class="footer-status">
+                            <div class="status-dot"></div>
+                            <span class="font-mono" style="font-size: 0.75rem;">All systems operational</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" onclick="scrollToSection('home')" id="scrollToTop">
+        <svg class="icon" viewBox="0 0 24 24" style="transform: rotate(-90deg);">
+            <line x1="5" x2="19" y1="12" y2="12"/>
+            <polyline points="12,5 19,12 12,19"/>
+        </svg>
+    </button>
+
+    <script>
+        // Global state
+        let currentLanguage = 'en';
+        let isMenuOpen = false;
+        let activeSection = 'home';
+
+        // Content data
+        const content = {
+            en: {
+                nav: {
+                    home: 'Home',
+                    services: 'Services', 
+                    portfolio: 'Work',
+                    about: 'About',
+                    contact: 'Contact'
+                },
+                hero: {
+                    badge: 'GYB — Grow Your Business',
+                    title: 'Websites that ',
+                    highlight: 'convert',
+                    subtitle: 'We design fast, credible sites that turn visitors into customers—Arabic & English, built right.',
+                    cta: 'Get a free audit',
+                    ctaSecondary: 'See our work'
+                },
+                services: {
+                    title: 'Services',
+                    subtitle: 'What we build',
+                    items: [
+                        {
+                            tag: 'FRONTEND',
+                            title: 'Web Development',
+                            desc: 'React, Vue.js applications with modern UX/UI design patterns.',
+                            link: 'Learn more'
+                        },
+                        {
+                            tag: 'BACKEND',
+                            title: 'System Architecture',
+                            desc: 'Scalable APIs, databases, and cloud infrastructure solutions.',
+                            link: 'Learn more'
+                        },
+                        {
+                            tag: 'DEVOPS',
+                            title: 'Performance & SEO',
+                            desc: 'Fast loading, mobile-optimized sites that rank on Google.',
+                            link: 'Learn more'
+                        },
+                        {
+                            tag: 'DESIGN',
+                            title: 'Brand Identity',
+                            desc: 'Complete visual systems from logos to marketing materials.',
+                            link: 'Learn more'
+                        },
+                        {
+                            tag: 'MOBILE',
+                            title: 'Mobile Apps',
+                            desc: 'Native iOS/Android and cross-platform mobile solutions.',
+                            link: 'Learn more'
+                        },
+                        {
+                            tag: 'STRATEGY',
+                            title: 'Digital Strategy',
+                            desc: 'Growth planning, analytics setup, and conversion optimization.',
+                            link: 'Learn more'
+                        }
+                    ]
+                },
+                portfolio: {
+                    title: 'Recent Work',
+                    subtitle: 'Case studies & launches',
+                    items: [
+                        {
+                            title: 'E-commerce Platform',
+                            tech: 'React • Node.js • Stripe',
+                            status: 'Live',
+                            category: 'Web App'
+                        },
+                        {
+                            title: 'Healthcare Portal',
+                            tech: 'Vue.js • Python • PostgreSQL',
+                            status: 'Live',
+                            category: 'Enterprise'
+                        },
+                        {
+                            title: 'Real Estate Site',
+                            tech: 'Next.js • Sanity CMS',
+                            status: 'Live',
+                            category: 'Marketing'
+                        }
+                    ]
+                },
+                about: {
+                    title: 'About GYB',
+                    subtitle: 'We build digital products that work.',
+                    description: 'Based in Cairo, we help businesses grow through well-designed websites, applications, and digital strategies. Every project is built for performance, accessibility, and results.',
+                    stats: [
+                        { number: '50+', label: 'Projects Delivered' },
+                        { number: '30+', label: 'Happy Clients' },
+                        { number: '3+', label: 'Years Experience' },
+                        { number: '99%', label: 'Client Satisfaction' }
+                    ]
+                },
+                contact: {
+                    title: 'Start Your Project',
+                    subtitle: 'Ready to grow your business?',
+                    form: {
+                        name: 'Your Name',
+                        email: 'Email Address',
+                        project: 'Project Type',
+                        budget: 'Budget Range',
+                        message: 'Tell us about your project',
+                        submit: 'Send Message'
+                    },
+                    info: {
+                        phone: '+20 123 456 7890',
+                        email: 'hello@gyb.dev',
+                        address: 'Cairo, Egypt'
+                    }
+                },
+                footer: {
+                    copyright: '© 2025 GYB. All rights reserved.'
+                }
+            },
+            ar: {
+                nav: {
+                    home: 'الرئيسية',
+                    services: 'الخدمات',
+                    portfolio: 'الأعمال',
+                    about: 'من نحن',
+                    contact: 'تواصل'
+                },
+                hero: {
+                    badge: 'GYB — نمي عملك',
+                    title: 'مواقع ويب ',
+                    highlight: 'تحقق النتائج',
+                    subtitle: 'نصمم مواقع سريعة وموثوقة تحول الزوار إلى عملاء—عربي وإنجليزي، مبنية بالشكل الصحيح.',
+                    cta: 'احصل على تقييم مجاني',
+                    ctaSecondary: 'شاهد أعمالنا'
+                },
+                services: {
+                    title: 'الخدمات',
+                    subtitle: 'ما نبنيه',
+                    items: [
+                        {
+                            tag: 'الواجهة الأمامية',
+                            title: 'تطوير الويب',
+                            desc: 'تطبيقات React و Vue.js مع أنماط تصميم UX/UI حديثة.',
+                            link: 'اعرف المزيد'
+                        },
+                        {
+                            tag: 'الخلفية',
+                            title: 'معمارية الأنظمة',
+                            desc: 'واجهات برمجة قابلة للتوسع وقواعد بيانات وحلول بنية تحتية سحابية.',
+                            link: 'اعرف المزيد'
+                        },
+                        {
+                            tag: 'DevOps',
+                            title: 'الأداء وتحسين محركات البحث',
+                            desc: 'مواقع سريعة التحميل ومحسّنة للهواتف المحمولة تتصدر جوجل.',
+                            link: 'اعرف المزيد'
+                        },
+                        {
+                            tag: 'التصميم',
+                            title: 'الهوية التجارية',
+                            desc: 'أنظمة بصرية كاملة من الشعارات إلى المواد التسويقية.',
+                            link: 'اعرف المزيد'
+                        },
+                        {
+                            tag: 'المحمول',
+                            title: 'تطبيقات الموبايل',
+                            desc: 'حلول iOS/Android الأصلية وتطبيقات متعددة المنصات.',
+                            link: 'اعرف المزيد'
+                        },
+                        {
+                            tag: 'الاستراتيجية',
+                            title: 'الاستراتيجية الرقمية',
+                            desc: 'تخطيط النمو وإعداد التحليلات وتحسين التحويل.',
+                            link: 'اعرف المزيد'
+                        }
+                    ]
+                },
+                portfolio: {
+                    title: 'أحدث الأعمال',
+                    subtitle: 'دراسات حالة وإطلاقات',
+                    items: [
+                        {
+                            title: 'منصة التجارة الإلكترونية',
+                            tech: 'React • Node.js • Stripe',
+                            status: 'مباشر',
+                            category: 'تطبيق ويب'
+                        },
+                        {
+                            title: 'بوابة الرعاية الصحية',
+                            tech: 'Vue.js • Python • PostgreSQL', 
+                            status: 'مباشر',
+                            category: 'المؤسسات'
+                        },
+                        {
+                            title: 'موقع العقارات',
+                            tech: 'Next.js • Sanity CMS',
+                            status: 'مباشر',
+                            category: 'التسويق'
+                        }
+                    ]
+                },
+                about: {
+                    title: 'حول GYB',
+                    subtitle: 'نبني منتجات رقمية تعمل.',
+                    description: 'مقرنا في القاهرة، نساعد الشركات على النمو من خلال مواقع الويب والتطبيقات والاستراتيجيات الرقمية المصممة جيداً. كل مشروع مبني للأداء وسهولة الوصول والنتائج.',
+                    stats: [
+                        { number: '+50', label: 'مشروع منجز' },
+                        { number: '+30', label: 'عميل سعيد' },
+                        { number: '+3', label: 'سنوات خبرة' },
+                        { number: '%99', label: 'رضا العملاء' }
+                    ]
+                },
+                contact: {
+                    title: 'ابدأ مشروعك',
+                    subtitle: 'جاهز لتنمية عملك؟',
+                    form: {
+                        name: 'اسمك',
+                        email: 'البريد الإلكتروني',
+                        project: 'نوع المشروع',
+                        budget: 'نطاق الميزانية', 
+                        message: 'أخبرنا عن مشروعك',
+                        submit: 'إرسال الرسالة'
+                    },
+                    info: {
+                        phone: '+20 123 456 7890',
+                        email: 'hello@gyb.dev', 
+                        address: 'القاهرة، مصر'
+                    }
+                },
+                footer: {
+                    copyright: '© 2025 GYB. جميع الحقوق محفوظة.'
+                }
+            }
+        };
+
+        // Utility functions
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+            closeMobileMenu();
+        }
+
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'en' ? 'ar' : 'en';
+            updateContent();
+            updateDirection();
+        }
+
+        function toggleMobileMenu() {
+            isMenuOpen = !isMenuOpen;
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuIcon = document.getElementById('menuIcon');
             
-            <div className="flex items-center space-x-6 text-sm text-muted">
-              <span>© 2025 GYB. All rights reserved.</span>
-              <div className="hidden md:flex items-center space-x-4">
-                <button className="hover:text-text transition-colors duration-300">Privacy</button>
-                <button className="hover:text-text transition-colors duration-300">Terms</button>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="font-mono text-xs">All systems operational</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
+            if (isMenuOpen) {
+                mobileMenu.classList.add('show');
+                menuIcon.innerHTML = '<line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/>';
+            } else {
+                mobileMenu.classList.remove('show');
+                menuIcon.innerHTML = '<line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/>';
+            }
+        }
 
-      {/* Scroll to Top */}
-      <button
-        onClick={() => scrollToSection('home')}
-        className="fixed bottom-8 right-8 w-12 h-12 bg-accent hover:bg-accent/80 text-black rounded-lg shadow-lg hover:shadow-glow transition-all duration-300 transform hover:scale-105 flex items-center justify-center z-50"
-      >
-        <ArrowRight className="w-5 h-5 -rotate-90" />
-      </button>
-    </div>
-  );
-};
+        function closeMobileMenu() {
+            isMenuOpen = false;
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuIcon = document.getElementById('menuIcon');
+            
+            mobileMenu.classList.remove('show');
+            menuIcon.innerHTML = '<line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/>';
+        }
 
-export default GYBWebsite;
+        function updateContent() {
+            const t = content[currentLanguage];
+
+            // Update language toggle
+            document.getElementById('langToggle').textContent = currentLanguage === 'en' ? 'AR' : 'EN';
+
+            // Update navigation
+            const navLinks = document.querySelectorAll('.nav-link');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+            
+            Object.entries(t.nav).forEach(([key, label], index) => {
+                if (navLinks[index]) navLinks[index].textContent = label;
+                if (mobileNavLinks[index]) mobileNavLinks[index].textContent = label;
+            });
+
+            // Update hero section
+            document.getElementById('heroBadge').textContent = t.hero.badge;
+            document.getElementById('heroTitle').textContent = t.hero.title;
+            document.getElementById('heroHighlight').textContent = t.hero.highlight;
+            document.getElementById('heroSubtitle').textContent = t.hero.subtitle;
+            document.getElementById('heroCta').querySelector('span').textContent = t.hero.cta;
+            document.getElementById('heroCtaSecondary').querySelector('span').textContent = t.hero.ctaSecondary;
+
+            // Update services
+            document.getElementById('servicesTitle').textContent = t.services.title;
+            document.getElementById('servicesSubtitle').textContent = t.services.subtitle;
+            
+            const servicesGrid = document.getElementById('servicesGrid');
+            servicesGrid.innerHTML = '';
+            
+            t.services.items.forEach(service => {
+                const serviceCard = document.createElement('article');
+                serviceCard.className = 'service-card';
+                serviceCard.innerHTML = `
+                    <div class="service-tag font-mono">${service.tag}</div>
+                    <h3 class="service-title">${service.title}</h3>
+                    <p class="service-desc">${service.desc}</p>
+                    <button class="service-link">${service.link}</button>
+                `;
+                servicesGrid.appendChild(serviceCard);
+            });
+
+            // Update stats
+            const statsGrid = document.getElementById('statsGrid');
+            statsGrid.innerHTML = '';
+            
+            t.about.stats.forEach(stat => {
+                const statDiv = document.createElement('div');
+                statDiv.innerHTML = `
+                    <div class="stat-number font-mono">${stat.number}</div>
+                    <div class="stat-label">${stat.label}</div>
+                `;
+                statsGrid.appendChild(statDiv);
+            });
+
+            // Update portfolio
+            document.getElementById('portfolioTitle').textContent = t.portfolio.title;
+            document.getElementById('portfolioSubtitle').textContent = t.portfolio.subtitle;
+            
+            const portfolioGrid = document.getElementById('portfolioGrid');
+            portfolioGrid.innerHTML = '';
+            
+            t.portfolio.items.forEach(item => {
+                const portfolioCard = document.createElement('article');
+                portfolioCard.className = 'portfolio-card';
+                portfolioCard.innerHTML = `
+                    <div class="portfolio-header">
+                        <span class="portfolio-category font-mono">${item.category}</span>
+                        <div class="portfolio-status">
+                            <div class="status-dot"></div>
+                            <span class="status-text">${item.status}</span>
+                        </div>
+                    </div>
+                    <h3 class="portfolio-title">${item.title}</h3>
+                    <p class="portfolio-tech font-mono">${item.tech}</p>
+                    <a href="#" class="portfolio-link">
+                        <span>View Project</span>
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                    </a>
+                `;
+                portfolioGrid.appendChild(portfolioCard);
+            });
+
+            // Update about
+            document.getElementById('aboutTitle').textContent = t.about.title;
+            document.getElementById('aboutSubtitle').textContent = t.about.subtitle;
+            document.getElementById('aboutDescription').textContent = t.about.description;
+
+            // Update contact
+            document.getElementById('contactTitle').textContent = t.contact.title;
+            document.getElementById('contactSubtitle').textContent = t.contact.subtitle;
+            
+            document.getElementById('nameLabel').textContent = t.contact.form.name;
+            document.getElementById('nameInput').placeholder = t.contact.form.name;
+            document.getElementById('emailLabel').textContent = t.contact.form.email;
+            document.getElementById('emailInput').placeholder = t.contact.form.email;
+            document.getElementById('projectLabel').textContent = t.contact.form.project;
+            document.getElementById('budgetLabel').textContent = t.contact.form.budget;
+            document.getElementById('messageLabel').textContent = t.contact.form.message;
+            document.getElementById('messageTextarea').placeholder = t.contact.form.message;
+            document.getElementById('submitBtn').querySelector('span').textContent = t.contact.form.submit;
+
+            document.getElementById('phoneInfo').textContent = t.contact.info.phone;
+            document.getElementById('emailInfo').textContent = t.contact.info.email;
+            document.getElementById('locationInfo').textContent = t.contact.info.address;
+
+            // Update footer
+            document.getElementById('footerCopyright').textContent = t.footer.copyright;
+        }
+
+        function updateDirection() {
+            document.documentElement.dir = currentLanguage === 'ar' ? 'rtl' : 'ltr';
+            document.documentElement.lang = currentLanguage;
+        }
+
+        function updateActiveSection() {
+            const sections = ['home', 'services', 'portfolio', 'about', 'contact'];
+            const scrollPosition = window.scrollY + 100;
+            
+            sections.forEach(section => {
+                const element = document.getElementById(section);
+                if (element) {
+                    const offsetTop = element.offsetTop;
+                    const height = element.offsetHeight;
+                    if (scrollPosition >= offsetTop && scrollPosition < offsetTop + height) {
+                        activeSection = section;
+                    }
+                }
+            });
+
+            // Update nav link active states
+            document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(link => {
+                if (link.dataset.section === activeSection) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+
+        function handleScroll() {
+            const navbar = document.getElementById('navbar');
+            const scrolled = window.scrollY > 20;
+            
+            if (scrolled) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            updateActiveSection();
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            // Handle form submission here
+            alert('Form submitted! (This is just a demo)');
+        }
+
+        // Event listeners
+        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('load', () => {
+            updateContent();
+            updateActiveSection();
+        });
+
+        // Initialize
+        updateContent();
+    </script>
+</body>
+</html>
